@@ -1,10 +1,13 @@
 package com.example.complain.managment.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.complain.managment.entity.Complaint;
+import com.example.complain.managment.entity.ComplaintHistory;
+import com.example.complain.managment.repository.ComplaintHistoryRepository;
 import com.example.complain.managment.repository.ComplaintRepository;
 
 @Service
@@ -12,23 +15,62 @@ public class ComplaintService {
 
     private final ComplaintRepository repo;
     private final EmailService emailService;
+    private final ComplaintHistoryRepository historyRepo;
+    private final NotificationService notificationService;
 
     public ComplaintService(
+
             ComplaintRepository repo,
-            EmailService emailService){
 
-        this.repo=repo;
-        this.emailService=emailService;
+            EmailService emailService,
 
+            ComplaintHistoryRepository historyRepo,
+
+            NotificationService notificationService){
+
+        this.repo = repo;
+        this.emailService = emailService;
+        this.historyRepo = historyRepo;
+        this.notificationService =
+                notificationService;
     }
+
 
     public Complaint saveComplaint(
             Complaint complaint){
 
-        return repo.save(
-                complaint);
+        Complaint saved =
+                repo.save(
+                        complaint);
+
+        ComplaintHistory h=
+                new ComplaintHistory();
+
+        h.setAction(
+                "Complaint Created");
+
+        h.setTime(
+                LocalDateTime.now());
+
+        h.setComplaint(
+                saved);
+
+        historyRepo.save(h);
+
+        notificationService.save(
+
+                "New complaint: "
+
+                +
+
+                saved.getTitle()
+
+        );
+
+        return saved;
 
     }
+
 
     public List<Complaint>
     getAllComplaints(){
@@ -37,49 +79,100 @@ public class ComplaintService {
 
     }
 
+
     public List<Complaint>
     getUserComplaints(
             Long userId){
 
         return repo
-        .findByUserId(
-                userId);
+                .findByUserId(
+                        userId);
 
     }
 
-    public Complaint updateStatus(
+
+    public Complaint
+    getComplaintById(
+            Long id){
+
+        return repo
+                .findById(id)
+                .orElseThrow();
+
+    }
+
+
+    public Complaint
+    updateStatus(
+
             Long id,
+
             String status){
 
         Complaint c=
 
-        repo.findById(id)
-        .orElseThrow();
+                repo.findById(id)
+                .orElseThrow();
 
         c.setStatus(
                 status);
 
         Complaint saved=
-        repo.save(c);
+                repo.save(c);
 
-        if(saved.getUser()!=null){
+
+        ComplaintHistory h=
+                new ComplaintHistory();
+
+        h.setAction(
+                "Status changed to "
+                +status);
+
+        h.setTime(
+                LocalDateTime.now());
+
+        h.setComplaint(
+                saved);
+
+        historyRepo.save(h);
+
+
+        notificationService.save(
+
+                "Status updated: "
+
+                +
+
+                saved.getTitle()
+
+        );
+
+
+        if(
+                saved.getUser()!=null
+        ){
 
             emailService.sendEmail(
 
-            saved.getUser()
-            .getEmail(),
+                    saved
+                    .getUser()
+                    .getEmail(),
 
-            "Complaint Updated",
+                    "Complaint Status Updated",
 
-            "Complaint: "
+                    "Complaint: "
 
-            + saved.getTitle()
+                    +
 
-            +
+                    saved.getTitle()
 
-            "\nStatus: "
+                    +
 
-            + status
+                    "\nStatus changed to: "
+
+                    +
+
+                    status
 
             );
 
@@ -89,9 +182,9 @@ public class ComplaintService {
 
     }
 
-    // admin response
 
-    public Complaint addResponse(
+    public Complaint
+    addResponse(
 
             Long id,
 
@@ -99,13 +192,42 @@ public class ComplaintService {
 
         Complaint c=
 
-        repo.findById(id)
-        .orElseThrow();
+                repo.findById(id)
+                .orElseThrow();
 
         c.setAdminResponse(
                 response);
 
-        return repo.save(c);
+        Complaint saved=
+                repo.save(c);
+
+
+        ComplaintHistory h=
+                new ComplaintHistory();
+
+        h.setAction(
+                "Admin responded");
+
+        h.setTime(
+                LocalDateTime.now());
+
+        h.setComplaint(
+                saved);
+
+        historyRepo.save(h);
+
+
+        notificationService.save(
+
+                "Admin responded: "
+
+                +
+
+                saved.getTitle()
+
+        );
+
+        return saved;
 
     }
 

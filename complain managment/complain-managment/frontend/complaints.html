@@ -1,87 +1,323 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>All Complaints</title>
 
-<style>
+    <meta charset="UTF-8" />
 
-body{
-font-family:Arial;
-background:#f4f4f4;
-padding:20px;
-}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-.card{
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
-background:white;
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
 
-padding:15px;
+      body {
+        background: linear-gradient(135deg, #eef2ff, #dbeafe);
 
-margin:10px;
+        padding: 30px;
 
-border-radius:10px;
+        min-height: 100vh;
+      }
 
-box-shadow:
-0 2px 5px gray;
+      nav {
+        background: white;
 
-}
+        padding: 18px;
 
-</style>
+        border-radius: 18px;
 
-</head>
+        display: flex;
 
-<body>
+        justify-content: space-between;
 
-<h1>Complaint List</h1>
+        align-items: center;
 
-<div id="complaintList"></div>
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 
-<script>
+        margin-bottom: 30px;
+      }
 
-async function loadComplaints(){
+      .logo {
+        font-size: 24px;
 
-const response=
-await fetch(
-"http://localhost:8080/api/complaints"
-);
+        font-weight: bold;
 
-const data=
-await response.json();
+        color: #4f46e5;
+      }
 
-let output="";
+      nav a {
+        text-decoration: none;
 
-data.forEach(c=>{
+        margin-left: 20px;
 
-output +=`
+        font-weight: bold;
 
-<div class="card">
+        color: #333;
+      }
 
-<h3>${c.title}</h3>
+      nav a:hover {
+        color: #4f46e5;
+      }
 
-<p>${c.description}</p>
+      .header {
+        display: flex;
 
-<p>Status:
-${c.status}</p>
+        justify-content: space-between;
 
-<p>Category:
-${c.category}</p>
+        align-items: center;
+
+        margin-bottom: 25px;
+      }
+
+      .search {
+        padding: 12px;
+
+        width: 300px;
+
+        border: none;
+
+        border-radius: 12px;
+
+        outline: none;
+
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+
+        gap: 25px;
+      }
+
+      .card {
+        background: white;
+
+        padding: 25px;
+
+        border-radius: 20px;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+      }
+
+      .card h2 {
+        margin-bottom: 10px;
+
+        color: #333;
+      }
+
+      .badge {
+        display: inline-block;
+
+        padding: 8px 15px;
+
+        border-radius: 20px;
+
+        font-size: 14px;
+
+        font-weight: bold;
+
+        color: white;
+
+        margin-top: 10px;
+      }
+
+      .Pending {
+        background: orange;
+      }
+
+      .Resolved {
+        background: green;
+      }
+
+      .InProgress {
+        background: #2563eb;
+      }
+
+      .category {
+        margin-top: 12px;
+
+        padding: 8px;
+
+        background: #f3f4f6;
+
+        border-radius: 10px;
+
+        display: inline-block;
+      }
+
+      img {
+        width: 100%;
+
+        max-height: 220px;
+
+        object-fit: cover;
+
+        border-radius: 12px;
+
+        margin-top: 15px;
+      }
+
+      .date {
+        margin-top: 15px;
+
+        font-size: 13px;
+
+        color: gray;
+      }
+
+      .empty {
+        text-align: center;
+
+        font-size: 25px;
+
+        color: gray;
+
+        margin-top: 80px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="logo">Complaint Portal</div>
+
+      <div>
+        <a href="index.html"> Create </a>
+
+        <a href="mycomplaints.html"> My Complaints </a>
+
+        <a href="admin.html"> Dashboard </a>
+      </div>
+    </nav>
+
+    <div class="header">
+      <h1>All Complaints</h1>
+
+      <input
+        class="search"
+        id="search"
+        placeholder="Search complaints..."
+        oninput="loadComplaints()"
+      />
+    </div>
+
+    <div id="complaintList" class="grid">Loading...</div>
+
+    <script>
+      async function loadComplaints() {
+        const response = await fetch("http://localhost:8080/api/complaints");
+
+        const data = await response.json();
+
+        const search = document.getElementById("search").value.toLowerCase();
+
+        let output = "";
+
+        const filtered = data.filter((c) =>
+          String(c.title).toLowerCase().includes(search),
+        );
+
+        if (filtered.length === 0) {
+          output = `
+
+<div class="empty">
+
+<i
+class="fa-solid fa-folder-open">
+
+</i>
+
+<br><br>
+
+No Complaints Found
 
 </div>
 
 `;
+        }
 
-});
+        filtered.forEach((c) => {
+          let badgeClass = String(c.status).replace(" ", "");
 
-document
-.getElementById(
-"complaintList")
-.innerHTML=output;
+          output += `
 
+<div class="card">
+
+<h2>
+
+${c.title}
+
+</h2>
+
+<p>
+
+${c.description}
+
+</p>
+
+
+<div
+class="badge ${badgeClass}">
+
+${c.status}
+
+</div>
+
+
+<div class="category">
+
+📁
+
+${c.category || "General"}
+
+</div>
+
+
+${
+  c.imageName
+    ? `<img src=
+
+"http://localhost:8080/uploads/${c.imageName}"
+
+>`
+    : ""
 }
 
-loadComplaints();
 
-</script>
+<div class="date">
 
-</body>
+Created:
+
+${c.createdAt ? new Date(c.createdAt).toLocaleString() : "Unknown"}
+
+</div>
+
+</div>
+
+`;
+        });
+
+        document.getElementById("complaintList").innerHTML = output;
+      }
+
+      loadComplaints();
+    </script>
+  </body>
 </html>

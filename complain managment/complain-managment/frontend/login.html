@@ -1,186 +1,336 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>Complaint System Login</title>
 
-<head>
-<title>Login</title>
+    <meta charset="UTF-8" />
 
-<style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-body{
-font-family:Arial;
-background:#f4f4f4;
-padding:40px;
-}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
-.container{
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
 
-background:white;
+      body {
+        height: 100vh;
 
-width:350px;
+        display: flex;
 
-margin:auto;
+        justify-content: center;
 
-padding:30px;
+        align-items: center;
 
-border-radius:10px;
+        background: linear-gradient(135deg, #4f46e5, #7c3aed, #06b6d4);
 
-box-shadow:
-0px 2px 10px gray;
+        overflow: hidden;
+      }
 
-}
+      .background {
+        position: absolute;
 
-input{
+        width: 100%;
+        height: 100%;
 
-width:100%;
+        overflow: hidden;
+      }
 
-padding:10px;
+      .circle {
+        position: absolute;
 
-margin-top:10px;
+        border-radius: 50%;
 
-margin-bottom:20px;
+        background: rgba(255, 255, 255, 0.1);
 
-}
+        animation: float 8s infinite linear;
+      }
 
-button{
+      .circle:nth-child(1) {
+        width: 250px;
+        height: 250px;
 
-width:100%;
+        top: 10%;
+        left: 10%;
+      }
 
-padding:10px;
+      .circle:nth-child(2) {
+        width: 350px;
+        height: 350px;
 
-cursor:pointer;
+        bottom: 5%;
+        right: 5%;
+      }
 
-}
+      .circle:nth-child(3) {
+        width: 150px;
+        height: 150px;
 
-</style>
+        top: 65%;
+        left: 25%;
+      }
 
-</head>
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
 
-<body>
+        50% {
+          transform: translateY(-30px);
+        }
 
-<div class="container">
+        100% {
+          transform: translateY(0px);
+        }
+      }
 
-<h1>Login</h1>
+      .container {
+        position: relative;
 
-<input
-id="email"
-placeholder="Email">
+        width: 400px;
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+        padding: 35px;
 
-<button
-onclick=
-"login()">
+        border-radius: 25px;
 
-Login
+        background: rgba(255, 255, 255, 0.15);
 
-</button>
+        backdrop-filter: blur(18px);
 
-</div>
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
 
-<script>
+        color: white;
 
-async function login(){
+        z-index: 100;
+      }
 
-const data={
+      .logo {
+        font-size: 60px;
 
-email:
-document
-.getElementById(
-"email")
-.value,
+        text-align: center;
 
-password:
-document
-.getElementById(
-"password")
-.value
+        margin-bottom: 10px;
+      }
 
-};
+      h1 {
+        text-align: center;
 
-const response=
-await fetch(
+        margin-bottom: 10px;
+      }
 
-"http://localhost:8080/api/auth/login",
+      .subtitle {
+        text-align: center;
 
-{
+        margin-bottom: 25px;
 
-method:"POST",
+        opacity: 0.8;
+      }
 
-headers:{
+      .input-box {
+        position: relative;
 
-"Content-Type":
-"application/json"
+        margin-top: 18px;
+      }
 
-},
+      .input-box i {
+        position: absolute;
 
-body:
-JSON.stringify(
-data)
+        left: 15px;
 
-}
+        top: 16px;
 
-);
+        color: #555;
+      }
 
-const user=
-await response.json();
+      .input-box input {
+        width: 100%;
 
-if(user){
+        padding: 14px 14px 14px 45px;
 
-localStorage
-.setItem(
-"userId",
-user.id
-);
+        border: none;
 
-localStorage
-.setItem(
-"userName",
-user.name
-);
+        border-radius: 12px;
 
-localStorage
-.setItem(
-"role",
-user.role
-);
+        outline: none;
 
-alert(
-"Login Success"
-);
+        font-size: 15px;
+      }
 
-if(
-user.role
-==="ADMIN"
-){
+      .password-toggle {
+        position: absolute;
 
-window.location=
-"admin.html";
+        right: 15px;
 
-}
+        top: 16px;
 
-else{
+        cursor: pointer;
 
-window.location=
-"index.html";
+        color: #555;
+      }
 
-}
+      button {
+        width: 100%;
 
-}
+        padding: 14px;
 
-else{
+        margin-top: 25px;
 
-alert(
-"Invalid Login"
-);
+        border: none;
 
-}
+        border-radius: 12px;
 
-}
+        background: #4f46e5;
 
-</script>
+        color: white;
 
-</body>
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #3730a3;
+
+        transform: translateY(-2px);
+      }
+
+      .footer {
+        margin-top: 25px;
+
+        text-align: center;
+      }
+
+      .footer a {
+        color: #fff;
+
+        font-weight: bold;
+
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="background">
+      <div class="circle"></div>
+
+      <div class="circle"></div>
+
+      <div class="circle"></div>
+    </div>
+
+    <div class="container">
+      <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <h1>Complaint Portal</h1>
+
+      <p class="subtitle">Secure Login System</p>
+
+      <div class="input-box">
+        <i class="fa-solid fa-envelope"></i>
+
+        <input id="email" placeholder="Email" />
+      </div>
+
+      <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input id="password" type="password" placeholder="Password" />
+
+        <i class="fa-solid fa-eye password-toggle" onclick="togglePassword()">
+        </i>
+      </div>
+
+      <button id="loginBtn" onclick="login()">Login</button>
+
+      <div class="footer">
+        New User?
+
+        <a href="register.html"> Register Here </a>
+      </div>
+    </div>
+
+    <script>
+      function togglePassword() {
+        let pass = document.getElementById("password");
+
+        if (pass.type === "password") {
+          pass.type = "text";
+        } else {
+          pass.type = "password";
+        }
+      }
+
+      async function login() {
+        const btn = document.getElementById("loginBtn");
+
+        btn.innerHTML = "Logging in...";
+
+        btn.disabled = true;
+
+        const data = {
+          email: document.getElementById("email").value,
+
+          password: document.getElementById("password").value,
+        };
+
+        try {
+          const response = await fetch(
+            "http://localhost:8080/api/auth/login",
+
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify(data),
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error();
+          }
+
+          const user = await response.json();
+
+          localStorage.setItem("userId", user.id);
+
+          localStorage.setItem("userName", user.name);
+
+          localStorage.setItem("role", user.role);
+
+          if (user.role === "ADMIN") {
+            window.location = "admin.html";
+          } else {
+            window.location = "index.html";
+          }
+        } catch {
+          alert("Invalid Email or Password");
+
+          btn.innerHTML = "Login";
+
+          btn.disabled = false;
+        }
+      }
+    </script>
+  </body>
 </html>

@@ -1,88 +1,342 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>Register</title>
 
-<head>
+    <meta charset="UTF-8" />
 
-<title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
-<body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
 
-<h1>User Registration</h1>
+      body {
+        height: 100vh;
 
-<input
-id="name"
-placeholder="Name">
+        display: flex;
 
-<br><br>
+        justify-content: center;
 
-<input
-id="email"
-placeholder="Email">
+        align-items: center;
 
-<br><br>
+        background: linear-gradient(135deg, #2563eb, #7c3aed, #06b6d4);
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+        overflow: hidden;
+      }
 
-<br><br>
+      .background {
+        position: absolute;
 
-<button onclick=
-"register()">
+        width: 100%;
+        height: 100%;
+      }
 
-Register
+      .circle {
+        position: absolute;
 
-</button>
+        border-radius: 50%;
 
-<script>
+        background: rgba(255, 255, 255, 0.1);
 
-async function register(){
+        animation: float 8s infinite linear;
+      }
 
-const data={
+      .circle:nth-child(1) {
+        width: 250px;
+        height: 250px;
 
-name:
-document.getElementById(
-"name").value,
+        top: 5%;
+        left: 8%;
+      }
 
-email:
-document.getElementById(
-"email").value,
+      .circle:nth-child(2) {
+        width: 350px;
+        height: 350px;
 
-password:
-document.getElementById(
-"password").value
+        bottom: 5%;
+        right: 5%;
+      }
 
-};
+      .circle:nth-child(3) {
+        width: 180px;
+        height: 180px;
 
-await fetch(
-"http://localhost:8080/api/auth/register",
+        bottom: 20%;
+        left: 20%;
+      }
 
-{
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
 
-method:"POST",
+        50% {
+          transform: translateY(-30px);
+        }
 
-headers:{
+        100% {
+          transform: translateY(0);
+        }
+      }
 
-"Content-Type":
-"application/json"
+      .container {
+        position: relative;
 
-},
+        width: 420px;
 
-body:
-JSON.stringify(data)
+        padding: 35px;
 
-});
+        border-radius: 25px;
 
-alert(
-"Registration Successful");
+        background: rgba(255, 255, 255, 0.15);
 
-}
+        backdrop-filter: blur(18px);
 
-</script>
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
 
-</body>
+        color: white;
 
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 60px;
+
+        text-align: center;
+
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        text-align: center;
+
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+
+        margin-bottom: 25px;
+
+        opacity: 0.85;
+      }
+
+      .input-box {
+        position: relative;
+
+        margin-top: 18px;
+      }
+
+      .input-box i {
+        position: absolute;
+
+        left: 15px;
+
+        top: 16px;
+
+        color: #555;
+      }
+
+      .input-box input {
+        width: 100%;
+
+        padding: 14px 14px 14px 45px;
+
+        border: none;
+
+        border-radius: 12px;
+
+        outline: none;
+
+        font-size: 15px;
+      }
+
+      .password-toggle {
+        position: absolute;
+
+        right: 15px;
+
+        top: 16px;
+
+        cursor: pointer;
+
+        color: #555;
+      }
+
+      button {
+        width: 100%;
+
+        padding: 14px;
+
+        margin-top: 25px;
+
+        border: none;
+
+        border-radius: 12px;
+
+        background: #4f46e5;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #312e81;
+
+        transform: translateY(-2px);
+      }
+
+      .footer {
+        text-align: center;
+
+        margin-top: 25px;
+      }
+
+      .footer a {
+        color: white;
+
+        font-weight: bold;
+
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="background">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+
+    <div class="container">
+      <div class="logo">
+        <i class="fa-solid fa-user-plus"></i>
+      </div>
+
+      <h1>Create Account</h1>
+
+      <p class="subtitle">Register to Complaint Portal</p>
+
+      <div class="input-box">
+        <i class="fa-solid fa-user"></i>
+
+        <input id="name" placeholder="Full Name" />
+      </div>
+
+      <div class="input-box">
+        <i class="fa-solid fa-envelope"></i>
+
+        <input id="email" placeholder="Email" />
+      </div>
+
+      <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input id="password" type="password" placeholder="Password" />
+
+        <i class="fa-solid fa-eye password-toggle" onclick="togglePassword()">
+        </i>
+      </div>
+
+      <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+        />
+      </div>
+
+      <button id="registerBtn" onclick="register()">Register</button>
+
+      <div class="footer">
+        Already have account?
+
+        <a href="login.html"> Login </a>
+      </div>
+    </div>
+
+    <script>
+      function togglePassword() {
+        let pass = document.getElementById("password");
+
+        pass.type = pass.type === "password" ? "text" : "password";
+      }
+
+      async function register() {
+        const name = document.getElementById("name").value;
+
+        const email = document.getElementById("email").value;
+
+        const password = document.getElementById("password").value;
+
+        const confirm = document.getElementById("confirmPassword").value;
+
+        if (password !== confirm) {
+          alert("Passwords do not match");
+
+          return;
+        }
+
+        const btn = document.getElementById("registerBtn");
+
+        btn.innerHTML = "Creating...";
+
+        btn.disabled = true;
+
+        const data = {
+          name: name,
+
+          email: email,
+
+          password: password,
+        };
+
+        try {
+          await fetch(
+            "http://localhost:8080/api/auth/register",
+
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify(data),
+            },
+          );
+
+          alert("Registration Successful");
+
+          window.location = "login.html";
+        } catch {
+          alert("Registration Failed");
+
+          btn.innerHTML = "Register";
+
+          btn.disabled = false;
+        }
+      }
+    </script>
+  </body>
 </html>
