@@ -2,38 +2,34 @@
 <html>
 
 <head>
-
 <title>Admin Dashboard</title>
 
 <style>
 
 body{
-
 font-family:Arial;
 background:#f4f4f4;
 padding:20px;
-
 }
 
 .card{
-
 background:white;
-
 padding:20px;
-
 margin:15px;
-
 border-radius:10px;
-
-box-shadow:
-0 2px 5px gray;
-
+box-shadow:0px 2px 5px gray;
 }
 
 button{
+padding:8px;
+margin:5px;
+cursor:pointer;
+}
+
+input,select{
 
 padding:10px;
-margin:5px;
+margin:10px;
 
 }
 
@@ -45,31 +41,94 @@ margin:5px;
 
 <h1>Admin Dashboard</h1>
 
-<div id=
-"complaints">
+<input
+id="search"
+placeholder="Search">
+
+<select
+id="statusFilter">
+
+<option value="">
+All
+</option>
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="In Progress">
+In Progress
+</option>
+
+<option value="Resolved">
+Resolved
+</option>
+
+</select>
+
+<div id="complaints">
+
 </div>
 
 <script>
 
 async function loadComplaints(){
 
-const response=
+const response =
 await fetch(
 "http://localhost:8080/api/complaints"
 );
 
-const data=
+const data =
 await response.json();
+
+const search =
+document
+.getElementById(
+"search")
+.value
+.toLowerCase();
+
+const status =
+document
+.getElementById(
+"statusFilter")
+.value;
 
 let output="";
 
-data.forEach(c=>{
+const filtered =
+data.filter(c=>{
+
+const matchTitle =
+
+c.title
+.toLowerCase()
+.includes(search);
+
+const matchStatus=
+
+status==""
+
+||
+
+c.status==status;
+
+return matchTitle
+&&
+matchStatus;
+
+});
+
+filtered.forEach(c=>{
 
 output +=`
 
 <div class="card">
 
-<h2>${c.title}</h2>
+<h2>
+${c.title}
+</h2>
 
 <p>
 ${c.description}
@@ -78,7 +137,9 @@ ${c.description}
 <p>
 
 Status:
-<b>${c.status}</b>
+<b>
+${c.status}
+</b>
 
 </p>
 
@@ -100,7 +161,7 @@ ${c.id},
 'Resolved'
 )">
 
-Resolve
+Resolved
 
 </button>
 
@@ -129,9 +190,7 @@ await fetch(
 `http://localhost:8080/api/complaints/${id}?status=${status}`,
 
 {
-
 method:"PUT"
-
 }
 
 );
@@ -140,10 +199,25 @@ loadComplaints();
 
 }
 
+document
+.getElementById(
+"search")
+.addEventListener(
+"input",
+loadComplaints
+);
+
+document
+.getElementById(
+"statusFilter")
+.addEventListener(
+"change",
+loadComplaints
+);
+
 loadComplaints();
 
 </script>
 
 </body>
-
 </html>
