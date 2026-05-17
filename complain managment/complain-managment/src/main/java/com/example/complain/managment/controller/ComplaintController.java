@@ -21,6 +21,7 @@ public class ComplaintController {
         this.service = service;
     }
 
+    // Create complaint
     @PostMapping
     public Complaint create(
             @RequestBody Complaint complaint){
@@ -34,6 +35,7 @@ public class ComplaintController {
 
     }
 
+    // Get all complaints
     @GetMapping
     public List<Complaint> getAll(){
 
@@ -42,19 +44,35 @@ public class ComplaintController {
 
     }
 
+    // Update status
     @PutMapping("/{id}")
+    public Complaint updateStatus(
 
-public Complaint updateStatus(
+            @PathVariable
+            Long id,
 
-@PathVariable Long id,
+            @RequestParam
+            String status){
 
-@RequestParam String status){
+        return service
+                .updateStatus(
+                        id,
+                        status);
 
-return service
-.updateStatus(
-id,
-status);
+    }
 
-}
+    // Get complaints of specific user
+    @GetMapping("/user/{id}")
+    public List<Complaint>
+    getUserComplaints(
+
+            @PathVariable
+            Long id){
+
+        return service
+                .getUserComplaints(
+                        id);
+
+    }
 
 }

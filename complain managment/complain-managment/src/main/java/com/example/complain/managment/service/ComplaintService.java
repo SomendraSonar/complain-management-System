@@ -15,9 +15,10 @@ public class ComplaintService {
     public ComplaintService(
             ComplaintRepository repo){
 
-        this.repo=repo;
+        this.repo = repo;
     }
 
+    // Save complaint
     public Complaint saveComplaint(
             Complaint complaint){
 
@@ -26,23 +27,36 @@ public class ComplaintService {
 
     }
 
+    // Get all complaints
     public List<Complaint> getAllComplaints(){
 
         return repo.findAll();
 
     }
 
+    // Update complaint status
     public Complaint updateStatus(
             Long id,
             String status){
 
-        Complaint c=
+        Complaint c =
         repo.findById(id)
         .orElseThrow();
 
         c.setStatus(status);
 
         return repo.save(c);
+
+    }
+
+    // Get complaints of specific user
+    public List<Complaint>
+    getUserComplaints(
+            Long userId){
+
+        return repo
+        .findByUserId(
+                userId);
 
     }
 

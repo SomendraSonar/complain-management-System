@@ -7,29 +7,114 @@
 <style>
 
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#f4f4f4;
 padding:20px;
 }
 
-.card{
+h1{
+margin-bottom:20px;
+}
+
+/* Analytics cards */
+
+.stats{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+margin-bottom:30px;
+
+}
+
+.stat-card{
+
 background:white;
+
 padding:20px;
-margin:15px;
+
+width:180px;
+
 border-radius:10px;
-box-shadow:0px 2px 5px gray;
+
+box-shadow:0px 2px 8px gray;
+
+text-align:center;
+
+}
+
+.number{
+
+font-size:30px;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
+
+/* Complaint cards */
+
+.card{
+
+background:white;
+
+padding:20px;
+
+margin:15px 0;
+
+border-radius:10px;
+
+box-shadow:0px 2px 8px gray;
+
 }
 
 button{
-padding:8px;
+
+padding:10px;
+
 margin:5px;
+
 cursor:pointer;
+
+border:none;
+
+border-radius:5px;
+
 }
 
 input,select{
 
 padding:10px;
+
 margin:10px;
+
+width:220px;
+
+}
+
+.status{
+
+font-weight:bold;
+
+}
+
+.user{
+
+color:blue;
+
+}
+
+.empty{
+
+padding:20px;
+
+font-size:20px;
+
+color:gray;
 
 }
 
@@ -41,9 +126,71 @@ margin:10px;
 
 <h1>Admin Dashboard</h1>
 
+<!-- Dashboard analytics -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<h3>Total</h3>
+
+<div
+class="number"
+id="total">
+
+0
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<h3>Pending</h3>
+
+<div
+class="number"
+id="pending">
+
+0
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<h3>In Progress</h3>
+
+<div
+class="number"
+id="progress">
+
+0
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<h3>Resolved</h3>
+
+<div
+class="number"
+id="resolved">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
 <input
 id="search"
-placeholder="Search">
+placeholder="Search title">
 
 <select
 id="statusFilter">
@@ -68,57 +215,127 @@ Resolved
 
 <div id="complaints">
 
+Loading...
+
 </div>
 
 <script>
 
 async function loadComplaints(){
 
-const response =
+try{
+
+const response=
 await fetch(
 "http://localhost:8080/api/complaints"
 );
 
-const data =
+const data=
 await response.json();
 
-const search =
+
+// Analytics
+
+const total=
+data.length;
+
+const pending=
+data.filter(
+c=>c.status==="Pending"
+).length;
+
+const progress=
+data.filter(
+c=>c.status==="In Progress"
+).length;
+
+const resolved=
+data.filter(
+c=>c.status==="Resolved"
+).length;
+
+document
+.getElementById(
+"total")
+.innerText=
+total;
+
+document
+.getElementById(
+"pending")
+.innerText=
+pending;
+
+document
+.getElementById(
+"progress")
+.innerText=
+progress;
+
+document
+.getElementById(
+"resolved")
+.innerText=
+resolved;
+
+
+// Search
+
+const search=
 document
 .getElementById(
 "search")
 .value
 .toLowerCase();
 
-const status =
+const status=
 document
 .getElementById(
 "statusFilter")
 .value;
 
-let output="";
 
-const filtered =
+const filtered=
 data.filter(c=>{
 
-const matchTitle =
+const title=
+(c.title||"")
+.toLowerCase();
 
-c.title
-.toLowerCase()
-.includes(search);
+const matchTitle=
+title.includes(
+search);
 
 const matchStatus=
 
-status==""
+status===""
 
 ||
 
-c.status==status;
+c.status===status;
 
 return matchTitle
 &&
 matchStatus;
 
 });
+
+
+let output="";
+
+if(filtered.length===0){
+
+output=`
+
+<div class="empty">
+
+No complaints found
+
+</div>
+
+`;
+
+}
 
 filtered.forEach(c=>{
 
@@ -127,19 +344,66 @@ output +=`
 <div class="card">
 
 <h2>
+
 ${c.title}
+
 </h2>
 
 <p>
+
 ${c.description}
+
+</p>
+
+<p>
+
+Category:
+
+<b>
+
+${c.category}
+
+</b>
+
+</p>
+
+<p>
+
+Attachment:
+
+<b>
+
+${c.imageName
+||
+"No file"}
+
+</b>
+
+</p>
+
+<p>
+
+User:
+
+<span class="user">
+
+${c.user
+? c.user.name
+: "Anonymous"}
+
+</span>
+
 </p>
 
 <p>
 
 Status:
-<b>
+
+<span class="status">
+
 ${c.status}
-</b>
+
+</span>
 
 </p>
 
@@ -177,6 +441,19 @@ document
 )
 .innerHTML=
 output;
+
+}catch(error){
+
+console.log(error);
+
+document
+.getElementById(
+"complaints"
+)
+.innerHTML=
+"<h2>Error loading complaints</h2>";
+
+}
 
 }
 

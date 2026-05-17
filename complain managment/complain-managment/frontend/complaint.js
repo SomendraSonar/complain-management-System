@@ -1,70 +1,91 @@
 async function submitComplaint(){
 
-    const userId =
-    localStorage.getItem(
-    "userId");
+const file =
+document
+.getElementById(
+"image")
+.files[0];
 
-    const data={
+let imageName="";
 
-        title:
-        document.getElementById(
-        "title").value,
+if(file){
 
-        description:
-        document.getElementById(
-        "description").value,
+imageName=
+file.name;
 
-        category:"General",
+}
 
-        status:"Pending",
+const data={
 
-        user:{
-            id:userId
-        }
+title:
+document
+.getElementById(
+"title")
+.value,
 
-    };
+description:
+document
+.getElementById(
+"description")
+.value,
 
-    try{
+category:
+"General",
 
-    const response=
-    await fetch(
-    "http://localhost:8080/api/complaints",
-    {
+status:
+"Pending",
 
-        method:"POST",
+imageName:
+imageName,
 
-        headers:{
+user:{
+id:
+localStorage
+.getItem(
+"userId")
+}
 
-            "Content-Type":
-            "application/json"
+};
 
-        },
+try{
 
-        body:
-        JSON.stringify(data)
+const response=
+await fetch(
+"http://localhost:8080/api/complaints",
+{
 
-    });
+method:"POST",
 
-    if(response.ok){
+headers:{
+"Content-Type":
+"application/json"
+},
 
-        alert(
-        "Complaint Submitted");
+body:
+JSON.stringify(
+data)
 
-    }
+});
 
-    else{
+if(response.ok){
 
-        alert(
-        "Error");
+alert(
+"Complaint Submitted");
 
-    }
+}
 
-    }
+else{
 
-    catch(error){
+alert(
+"Error");
 
-        console.log(error);
+}
 
-    }
+}catch(error){
+
+console.log(
+error);
+
+}
 
 }

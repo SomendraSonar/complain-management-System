@@ -2,6 +2,7 @@ package com.example.complain.managment.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +14,10 @@ import java.time.LocalDateTime;
 public class Complaint {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy =
+            GenerationType.IDENTITY)
+
     private Long id;
 
     private String title;
@@ -24,9 +28,15 @@ public class Complaint {
 
     private String status;
 
+    // file/image name
+    private String imageName;
+
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(
+            name="user_id")
+
     private User user;
+
 }

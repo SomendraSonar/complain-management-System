@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>My Complaints</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:20px;
+}
+
+.card{
+
+background:white;
+
+padding:20px;
+
+margin:15px 0;
+
+border-radius:10px;
+
+box-shadow:
+0px 2px 8px gray;
+
+}
+
+.status{
+
+font-weight:bold;
+
+}
+
+.empty{
+
+color:gray;
+
+font-size:20px;
+
+padding:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>My Complaints</h1>
+
+<div id="complaints">
+
+Loading...
+
+</div>
+
+<script>
+
+async function loadComplaints(){
+
+const userId=
+localStorage
+.getItem(
+"userId"
+);
+
+try{
+
+const response=
+await fetch(
+
+`http://localhost:8080/api/complaints/user/${userId}`
+
+);
+
+const data=
+await response.json();
+
+let output="";
+
+if(data.length===0){
+
+output=`
+
+<div class="empty">
+
+No complaints found
+
+</div>
+
+`;
+
+}
+
+data.forEach(c=>{
+
+output +=`
+
+<div class="card">
+
+<h2>
+
+${c.title}
+
+</h2>
+
+<p>
+
+${c.description}
+
+</p>
+
+<p>
+
+Attachment:
+
+<b>
+
+${c.imageName
+||
+"No file"}
+
+</b>
+
+</p>
+
+<p>
+
+Status:
+
+<span class=
+"status">
+
+${c.status}
+
+</span>
+
+</p>
+
+<p>
+
+Created:
+
+${c.createdAt}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+document
+.getElementById(
+"complaints"
+)
+.innerHTML=
+output;
+
+}catch(error){
+
+console.log(error);
+
+document
+.getElementById(
+"complaints"
+)
+.innerHTML=
+"Error loading complaints";
+
+}
+
+}
+
+loadComplaints();
+
+</script>
+
+</body>
+
+</html>
