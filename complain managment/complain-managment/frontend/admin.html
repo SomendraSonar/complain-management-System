@@ -9,8 +9,8 @@
 body{
 font-family:Arial,sans-serif;
 background:#f4f4f4;
-margin:0;
 padding:20px;
+margin:0;
 }
 
 nav{
@@ -52,13 +52,13 @@ text-align:center;
 .number{
 font-size:35px;
 font-weight:bold;
-margin-top:10px;
 }
 
 input,select,textarea{
+
 padding:10px;
 margin:10px;
-width:220px;
+
 }
 
 .card{
@@ -66,7 +66,14 @@ background:white;
 padding:20px;
 margin-top:20px;
 border-radius:10px;
-box-shadow:0 2px 8px gray;
+box-shadow:0px 2px 8px gray;
+}
+
+img{
+
+margin-top:10px;
+border-radius:10px;
+
 }
 
 button{
@@ -84,10 +91,12 @@ cursor:pointer;
 <script>
 
 if(
-localStorage.getItem("role")
-!=="ADMIN"
+localStorage.getItem(
+"role"
+)!=="ADMIN"
 ){
-window.location="login.html";
+window.location=
+"login.html";
 }
 
 </script>
@@ -106,7 +115,8 @@ My Complaints
 Dashboard
 </a>
 
-<button onclick="logout()">
+<button onclick=
+"logout()">
 Logout
 </button>
 
@@ -142,7 +152,8 @@ Logout
 id="search"
 placeholder="Search">
 
-<select id="statusFilter">
+<select
+id="statusFilter">
 
 <option value="">
 All
@@ -199,10 +210,6 @@ method:"PUT"
 
 );
 
-alert(
-"Response Sent"
-);
-
 loadComplaints();
 
 }
@@ -234,32 +241,28 @@ await fetch(
 const data=
 await response.json();
 
-document
-.getElementById(
-"total")
-.innerText=
+document.getElementById(
+"total"
+).innerText=
 data.length;
 
-document
-.getElementById(
-"pending")
-.innerText=
+document.getElementById(
+"pending"
+).innerText=
 data.filter(
 c=>c.status==="Pending"
 ).length;
 
-document
-.getElementById(
-"progress")
-.innerText=
+document.getElementById(
+"progress"
+).innerText=
 data.filter(
 c=>c.status==="In Progress"
 ).length;
 
-document
-.getElementById(
-"resolved")
-.innerText=
+document.getElementById(
+"resolved"
+).innerText=
 data.filter(
 c=>c.status==="Resolved"
 ).length;
@@ -286,35 +289,23 @@ c.title||""
 )
 .toLowerCase();
 
-const complaintStatus=
-String(
-c.status||""
-);
-
 return(
 
 title.includes(search)
 
 &&
 
-(status===""
-
+(
+status===""
 ||
-
-complaintStatus===status)
+c.status===status
+)
 
 );
 
 });
 
 let output="";
-
-if(filtered.length===0){
-
-output=
-"<h2>No complaints found</h2>";
-
-}
 
 filtered.forEach(c=>{
 
@@ -351,19 +342,6 @@ c.user.name
 
 <p>
 
-Attachment:
-<b>
-
-${c.imageName
-||
-"No file"}
-
-</b>
-
-</p>
-
-<p>
-
 Status:
 <b>
 
@@ -375,7 +353,26 @@ ${c.status}
 
 <p>
 
-Current Response:
+Image:
+
+</p>
+
+${
+c.imageName ?
+
+`<img
+src="http://localhost:8080/uploads/${c.imageName}"
+width="250">`
+
+:
+
+"No image"
+
+}
+
+<p>
+
+Admin Response:
 <b>
 
 ${c.adminResponse
@@ -397,9 +394,7 @@ placeholder=
 
 <button
 onclick=
-"sendResponse(
-${c.id}
-)">
+"sendResponse(${c.id})">
 
 Send Response
 
@@ -407,10 +402,8 @@ Send Response
 
 <button
 onclick=
-"updateStatus(
-${c.id},
-'In Progress'
-)">
+"updateStatus(${c.id},
+'In Progress')">
 
 In Progress
 
@@ -418,10 +411,8 @@ In Progress
 
 <button
 onclick=
-"updateStatus(
-${c.id},
-'Resolved'
-)">
+"updateStatus(${c.id},
+'Resolved')">
 
 Resolved
 
@@ -444,7 +435,8 @@ output;
 
 document
 .getElementById(
-"search")
+"search"
+)
 .addEventListener(
 "input",
 loadComplaints
@@ -452,7 +444,8 @@ loadComplaints
 
 document
 .getElementById(
-"statusFilter")
+"statusFilter"
+)
 .addEventListener(
 "change",
 loadComplaints

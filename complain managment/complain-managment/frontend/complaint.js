@@ -1,90 +1,98 @@
 async function submitComplaint(){
 
-const file =
+const formData = new FormData();
+
+formData.append(
+"title",
+
 document
 .getElementById(
-"image")
-.files[0];
+"title"
+).value
+);
 
-let imageName="";
+formData.append(
+"description",
 
-if(file){
+document
+.getElementById(
+"description"
+).value
+);
 
-imageName=
-file.name;
+const fileInput =
+document
+.getElementById(
+"image"
+);
+
+if(
+fileInput.files.length>0
+){
+
+formData.append(
+
+"file",
+
+fileInput
+.files[0]
+
+);
 
 }
 
-const data={
+formData.append(
 
-title:
-document
-.getElementById(
-"title")
-.value,
+"userId",
 
-description:
-document
-.getElementById(
-"description")
-.value,
-
-category:
-"General",
-
-status:
-"Pending",
-
-imageName:
-imageName,
-
-user:{
-id:
 localStorage
 .getItem(
 "userId")
-}
 
-};
+);
 
 try{
 
 const response=
+
 await fetch(
-"http://localhost:8080/api/complaints",
+
+"http://localhost:8080/api/complaints/upload",
+
 {
 
 method:"POST",
 
-headers:{
-"Content-Type":
-"application/json"
-},
-
 body:
-JSON.stringify(
-data)
+formData
 
-});
+}
+
+);
 
 if(response.ok){
 
 alert(
-"Complaint Submitted");
+"Complaint Submitted Successfully"
+);
 
-}
+window.location.reload();
 
-else{
+}else{
 
 alert(
-"Error");
+"Upload failed"
+);
 
 }
 
 }catch(error){
 
-console.log(
-error);
+console.log(error);
+
+alert(
+"Error"
+);
 
 }
 
