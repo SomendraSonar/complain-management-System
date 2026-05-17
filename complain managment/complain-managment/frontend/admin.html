@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Dashboard</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+background:#f4f4f4;
+padding:20px;
+
+}
+
+.card{
+
+background:white;
+
+padding:20px;
+
+margin:15px;
+
+border-radius:10px;
+
+box-shadow:
+0 2px 5px gray;
+
+}
+
+button{
+
+padding:10px;
+margin:5px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<div id=
+"complaints">
+</div>
+
+<script>
+
+async function loadComplaints(){
+
+const response=
+await fetch(
+"http://localhost:8080/api/complaints"
+);
+
+const data=
+await response.json();
+
+let output="";
+
+data.forEach(c=>{
+
+output +=`
+
+<div class="card">
+
+<h2>${c.title}</h2>
+
+<p>
+${c.description}
+</p>
+
+<p>
+
+Status:
+<b>${c.status}</b>
+
+</p>
+
+<button
+onclick=
+"updateStatus(
+${c.id},
+'In Progress'
+)">
+
+In Progress
+
+</button>
+
+<button
+onclick=
+"updateStatus(
+${c.id},
+'Resolved'
+)">
+
+Resolve
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document
+.getElementById(
+"complaints"
+)
+.innerHTML=
+output;
+
+}
+
+async function
+updateStatus(
+id,
+status){
+
+await fetch(
+
+`http://localhost:8080/api/complaints/${id}?status=${status}`,
+
+{
+
+method:"PUT"
+
+}
+
+);
+
+loadComplaints();
+
+}
+
+loadComplaints();
+
+</script>
+
+</body>
+
+</html>

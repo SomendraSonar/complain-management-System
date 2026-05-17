@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Login</title>
+
+</head>
+
+<body>
+
+<h1>Login</h1>
+
+<input
+id="email"
+placeholder="Email">
+
+<br><br>
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<br><br>
+
+<button onclick=
+"login()">
+
+Login
+
+</button>
+
+<script>
+
+async function login(){
+
+const data={
+
+email:
+document.getElementById(
+"email").value,
+
+password:
+document.getElementById(
+"password").value
+
+};
+
+const response=
+await fetch(
+"http://localhost:8080/api/auth/login",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+JSON.stringify(data)
+
+});
+
+const user=
+await response.json();
+
+if(user){
+
+localStorage.setItem(
+"userId",
+user.id
+);
+
+localStorage.setItem(
+"userName",
+user.name
+);
+
+alert(
+"Login Success"
+);
+
+window.location=
+"index.html";
+
+}
+
+else{
+
+alert(
+"Invalid Login"
+);
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
