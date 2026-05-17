@@ -18,10 +18,10 @@ public class ComplaintController {
     public ComplaintController(
             ComplaintService service){
 
-        this.service = service;
+        this.service=service;
+
     }
 
-    // Create complaint
     @PostMapping
     public Complaint create(
             @RequestBody Complaint complaint){
@@ -35,17 +35,30 @@ public class ComplaintController {
 
     }
 
-    // Get all complaints
     @GetMapping
-    public List<Complaint> getAll(){
+    public List<Complaint>
+    getAll(){
 
         return service
                 .getAllComplaints();
 
     }
 
-    // Update status
+    @GetMapping("/user/{id}")
+    public List<Complaint>
+    getUserComplaints(
+
+            @PathVariable
+            Long id){
+
+        return service
+                .getUserComplaints(
+                        id);
+
+    }
+
     @PutMapping("/{id}")
+
     public Complaint updateStatus(
 
             @PathVariable
@@ -61,17 +74,22 @@ public class ComplaintController {
 
     }
 
-    // Get complaints of specific user
-    @GetMapping("/user/{id}")
-    public List<Complaint>
-    getUserComplaints(
+    // admin response
+
+    @PutMapping("/{id}/response")
+
+    public Complaint addResponse(
 
             @PathVariable
-            Long id){
+            Long id,
+
+            @RequestParam
+            String response){
 
         return service
-                .getUserComplaints(
-                        id);
+                .addResponse(
+                        id,
+                        response);
 
     }
 

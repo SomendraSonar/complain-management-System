@@ -17,16 +17,31 @@ public class AuthController {
     }
 
     // Register
+@PostMapping("/register")
+public User register(
+        @RequestBody User user){
 
-    @PostMapping("/register")
-    public User register(
-            @RequestBody User user){
+    if(
+    user.getEmail()
+    .equals(
+    "admin@gmail.com")){
 
-        user.setRole("USER");
-
-        return repo.save(user);
+        user.setRole(
+        "ADMIN");
 
     }
+
+    else{
+
+        user.setRole(
+        "USER");
+
+    }
+
+    return repo.save(
+            user);
+
+}
 
     // Login
 

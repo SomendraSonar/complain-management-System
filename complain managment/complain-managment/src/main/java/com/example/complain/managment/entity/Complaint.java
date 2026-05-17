@@ -15,7 +15,7 @@ public class Complaint {
 
     @Id
     @GeneratedValue(
-            strategy =
+            strategy=
             GenerationType.IDENTITY)
 
     private Long id;
@@ -28,8 +28,10 @@ public class Complaint {
 
     private String status;
 
-    // file/image name
     private String imageName;
+
+    // Admin reply field
+    private String adminResponse;
 
     private LocalDateTime createdAt;
 

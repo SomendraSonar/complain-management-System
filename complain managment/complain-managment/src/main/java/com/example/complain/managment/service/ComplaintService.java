@@ -11,14 +11,17 @@ import com.example.complain.managment.repository.ComplaintRepository;
 public class ComplaintService {
 
     private final ComplaintRepository repo;
+    private final EmailService emailService;
 
     public ComplaintService(
-            ComplaintRepository repo){
+            ComplaintRepository repo,
+            EmailService emailService){
 
-        this.repo = repo;
+        this.repo=repo;
+        this.emailService=emailService;
+
     }
 
-    // Save complaint
     public Complaint saveComplaint(
             Complaint complaint){
 
@@ -27,29 +30,13 @@ public class ComplaintService {
 
     }
 
-    // Get all complaints
-    public List<Complaint> getAllComplaints(){
+    public List<Complaint>
+    getAllComplaints(){
 
         return repo.findAll();
 
     }
 
-    // Update complaint status
-    public Complaint updateStatus(
-            Long id,
-            String status){
-
-        Complaint c =
-        repo.findById(id)
-        .orElseThrow();
-
-        c.setStatus(status);
-
-        return repo.save(c);
-
-    }
-
-    // Get complaints of specific user
     public List<Complaint>
     getUserComplaints(
             Long userId){
@@ -57,6 +44,68 @@ public class ComplaintService {
         return repo
         .findByUserId(
                 userId);
+
+    }
+
+    public Complaint updateStatus(
+            Long id,
+            String status){
+
+        Complaint c=
+
+        repo.findById(id)
+        .orElseThrow();
+
+        c.setStatus(
+                status);
+
+        Complaint saved=
+        repo.save(c);
+
+        if(saved.getUser()!=null){
+
+            emailService.sendEmail(
+
+            saved.getUser()
+            .getEmail(),
+
+            "Complaint Updated",
+
+            "Complaint: "
+
+            + saved.getTitle()
+
+            +
+
+            "\nStatus: "
+
+            + status
+
+            );
+
+        }
+
+        return saved;
+
+    }
+
+    // admin response
+
+    public Complaint addResponse(
+
+            Long id,
+
+            String response){
+
+        Complaint c=
+
+        repo.findById(id)
+        .orElseThrow();
+
+        c.setAdminResponse(
+                response);
+
+        return repo.save(c);
 
     }
 

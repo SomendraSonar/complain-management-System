@@ -2,12 +2,62 @@
 <html>
 
 <head>
-
 <title>Login</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:40px;
+}
+
+.container{
+
+background:white;
+
+width:350px;
+
+margin:auto;
+
+padding:30px;
+
+border-radius:10px;
+
+box-shadow:
+0px 2px 10px gray;
+
+}
+
+input{
+
+width:100%;
+
+padding:10px;
+
+margin-top:10px;
+
+margin-bottom:20px;
+
+}
+
+button{
+
+width:100%;
+
+padding:10px;
+
+cursor:pointer;
+
+}
+
+</style>
 
 </head>
 
 <body>
+
+<div class="container">
 
 <h1>Login</h1>
 
@@ -15,21 +65,20 @@
 id="email"
 placeholder="Email">
 
-<br><br>
-
 <input
 id="password"
 type="password"
 placeholder="Password">
 
-<br><br>
-
-<button onclick=
+<button
+onclick=
 "login()">
 
 Login
 
 </button>
+
+</div>
 
 <script>
 
@@ -38,17 +87,22 @@ async function login(){
 const data={
 
 email:
-document.getElementById(
-"email").value,
+document
+.getElementById(
+"email")
+.value,
 
 password:
-document.getElementById(
-"password").value
+document
+.getElementById(
+"password")
+.value
 
 };
 
 const response=
 await fetch(
+
 "http://localhost:8080/api/auth/login",
 
 {
@@ -63,31 +117,56 @@ headers:{
 },
 
 body:
-JSON.stringify(data)
+JSON.stringify(
+data)
 
-});
+}
+
+);
 
 const user=
 await response.json();
 
 if(user){
 
-localStorage.setItem(
+localStorage
+.setItem(
 "userId",
 user.id
 );
 
-localStorage.setItem(
+localStorage
+.setItem(
 "userName",
 user.name
+);
+
+localStorage
+.setItem(
+"role",
+user.role
 );
 
 alert(
 "Login Success"
 );
 
+if(
+user.role
+==="ADMIN"
+){
+
+window.location=
+"admin.html";
+
+}
+
+else{
+
 window.location=
 "index.html";
+
+}
 
 }
 
@@ -104,5 +183,4 @@ alert(
 </script>
 
 </body>
-
 </html>

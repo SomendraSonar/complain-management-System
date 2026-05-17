@@ -3,7 +3,9 @@
 
 <head>
 
-<title>My Complaints</title>
+<title>
+My Complaints
+</title>
 
 <style>
 
@@ -14,34 +16,11 @@ padding:20px;
 }
 
 .card{
-
 background:white;
-
 padding:20px;
-
-margin:15px 0;
-
+margin:15px;
 border-radius:10px;
-
-box-shadow:
-0px 2px 8px gray;
-
-}
-
-.status{
-
-font-weight:bold;
-
-}
-
-.empty{
-
-color:gray;
-
-font-size:20px;
-
-padding:20px;
-
+box-shadow:0px 2px 8px gray;
 }
 
 </style>
@@ -50,7 +29,11 @@ padding:20px;
 
 <body>
 
-<h1>My Complaints</h1>
+<h1>
+
+My Complaints
+
+</h1>
 
 <div id="complaints">
 
@@ -60,17 +43,18 @@ Loading...
 
 <script>
 
-async function loadComplaints(){
+async function
+loadComplaints(){
 
 const userId=
+
 localStorage
 .getItem(
 "userId"
 );
 
-try{
-
 const response=
+
 await fetch(
 
 `http://localhost:8080/api/complaints/user/${userId}`
@@ -78,21 +62,16 @@ await fetch(
 );
 
 const data=
-await response.json();
+
+await response
+.json();
 
 let output="";
 
 if(data.length===0){
 
-output=`
-
-<div class="empty">
-
-No complaints found
-
-</div>
-
-`;
+output=
+"<h2>No complaints found</h2>";
 
 }
 
@@ -116,13 +95,10 @@ ${c.description}
 
 <p>
 
-Attachment:
-
+Status:
 <b>
 
-${c.imageName
-||
-"No file"}
+${c.status}
 
 </b>
 
@@ -130,14 +106,25 @@ ${c.imageName
 
 <p>
 
-Status:
+Attachment:
 
-<span class=
-"status">
+${c.imageName
+||
+"No file"}
 
-${c.status}
+</p>
 
-</span>
+<p>
+
+Admin Response:
+
+<b>
+
+${c.adminResponse
+||
+"No response"}
+
+</b>
 
 </p>
 
@@ -162,19 +149,6 @@ document
 .innerHTML=
 output;
 
-}catch(error){
-
-console.log(error);
-
-document
-.getElementById(
-"complaints"
-)
-.innerHTML=
-"Error loading complaints";
-
-}
-
 }
 
 loadComplaints();
@@ -182,5 +156,4 @@ loadComplaints();
 </script>
 
 </body>
-
 </html>
