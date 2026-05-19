@@ -21,13 +21,9 @@ font-family:Arial,sans-serif;
 }
 
 body{
-
 height:100vh;
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
 
 background:
@@ -39,60 +35,40 @@ linear-gradient(
 );
 
 overflow:hidden;
-
 }
 
 .background{
-
 position:absolute;
-
 width:100%;
 height:100%;
-
 }
 
 .circle{
-
 position:absolute;
-
 border-radius:50%;
-
-background:
-rgba(255,255,255,.1);
-
-animation:
-float 8s infinite linear;
-
+background:rgba(255,255,255,.1);
+animation:float 8s infinite linear;
 }
 
 .circle:nth-child(1){
-
 width:250px;
 height:250px;
-
 top:5%;
 left:8%;
-
 }
 
 .circle:nth-child(2){
-
 width:350px;
 height:350px;
-
 bottom:5%;
 right:5%;
-
 }
 
 .circle:nth-child(3){
-
 width:180px;
 height:180px;
-
 bottom:20%;
 left:20%;
-
 }
 
 @keyframes float{
@@ -114,9 +90,7 @@ transform:translateY(0);
 .container{
 
 position:relative;
-
 width:420px;
-
 padding:35px;
 
 border-radius:25px;
@@ -137,132 +111,101 @@ z-index:100;
 }
 
 .logo{
-
 font-size:60px;
-
 text-align:center;
-
 margin-bottom:10px;
-
 }
 
 h1{
-
 text-align:center;
-
 margin-bottom:10px;
-
 }
 
 .subtitle{
-
 text-align:center;
-
 margin-bottom:25px;
-
 opacity:.85;
-
 }
 
 .input-box{
-
 position:relative;
-
 margin-top:18px;
-
 }
 
 .input-box i{
-
 position:absolute;
-
 left:15px;
-
 top:16px;
-
 color:#555;
-
 }
 
 .input-box input{
-
 width:100%;
-
 padding:14px 14px 14px 45px;
-
 border:none;
-
 border-radius:12px;
-
 outline:none;
-
 font-size:15px;
-
 }
 
 .password-toggle{
-
 position:absolute;
-
 right:15px;
-
 top:16px;
-
 cursor:pointer;
-
 color:#555;
-
 }
 
 button{
-
 width:100%;
-
 padding:14px;
-
 margin-top:25px;
-
 border:none;
-
 border-radius:12px;
-
 background:#4f46e5;
-
 color:white;
-
 font-size:16px;
-
 font-weight:bold;
-
 cursor:pointer;
-
 transition:.3s;
-
 }
 
 button:hover{
-
 background:#312e81;
-
 transform:translateY(-2px);
-
 }
 
 .footer{
-
 text-align:center;
-
 margin-top:25px;
-
 }
 
 .footer a{
+color:white;
+font-weight:bold;
+text-decoration:none;
+}
+
+.credit{
+
+position:absolute;
+
+bottom:20px;
+right:20px;
+
+padding:8px 15px;
+
+background:
+rgba(255,255,255,.15);
+
+border-radius:20px;
 
 color:white;
 
-font-weight:bold;
+font-size:14px;
 
-text-decoration:none;
+backdrop-filter:
+blur(10px);
 
 }
 
@@ -273,11 +216,9 @@ text-decoration:none;
 <body>
 
 <div class="background">
-
 <div class="circle"></div>
 <div class="circle"></div>
 <div class="circle"></div>
-
 </div>
 
 <div class="container">
@@ -303,16 +244,19 @@ placeholder="Full Name"
 
 </div>
 
+
 <div class="input-box">
 
 <i class="fa-solid fa-envelope"></i>
 
 <input
 id="email"
+type="email"
 placeholder="Email"
 />
 
 </div>
+
 
 <div class="input-box">
 
@@ -331,6 +275,7 @@ onclick="togglePassword()">
 
 </div>
 
+
 <div class="input-box">
 
 <i class="fa-solid fa-lock"></i>
@@ -343,6 +288,7 @@ placeholder="Confirm Password"
 
 </div>
 
+
 <button
 id="registerBtn"
 onclick="register()">
@@ -350,6 +296,7 @@ onclick="register()">
 Register
 
 </button>
+
 
 <div class="footer">
 
@@ -365,6 +312,17 @@ Login
 
 </div>
 
+
+<div class="credit">
+
+<i class="fa-solid fa-code"></i>
+
+Made by
+<b>Somendra Sonar</b>
+
+</div>
+
+
 <script>
 
 function togglePassword(){
@@ -376,22 +334,25 @@ document.getElementById(
 
 pass.type=
 pass.type==="password"
-?"text"
-:"password";
+?
+"text"
+:
+"password";
 
 }
+
 
 async function register(){
 
 const name=
 document.getElementById(
 "name"
-).value;
+).value.trim();
 
 const email=
 document.getElementById(
 "email"
-).value;
+).value.trim();
 
 const password=
 document.getElementById(
@@ -403,7 +364,52 @@ document.getElementById(
 "confirmPassword"
 ).value;
 
-if(password!==confirm){
+
+if(
+!name ||
+!email ||
+!password ||
+!confirm
+){
+
+alert(
+"Please fill all fields"
+);
+
+return;
+
+}
+
+
+if(
+!email.includes("@")
+){
+
+alert(
+"Enter valid email"
+);
+
+return;
+
+}
+
+
+if(
+password.length<6
+){
+
+alert(
+"Password must be at least 6 characters"
+);
+
+return;
+
+}
+
+
+if(
+password!==confirm
+){
 
 alert(
 "Passwords do not match"
@@ -412,6 +418,7 @@ alert(
 return;
 
 }
+
 
 const btn=
 document.getElementById(
@@ -423,19 +430,11 @@ btn.innerHTML=
 
 btn.disabled=true;
 
-const data={
-
-name:name,
-
-email:email,
-
-password:password
-
-};
 
 try{
 
 const response=
+
 await fetch(
 
 `${window.location.origin}/api/auth/register`,
@@ -452,11 +451,18 @@ headers:{
 },
 
 body:
-JSON.stringify(data)
+JSON.stringify({
+
+name,
+email,
+password
+
+})
 
 }
 
 );
+
 
 if(!response.ok){
 
@@ -464,11 +470,12 @@ throw new Error();
 
 }
 
+
 alert(
 "Registration Successful"
 );
 
-window.location=
+window.location.href=
 "login.html";
 
 }catch(error){
@@ -478,6 +485,8 @@ console.log(error);
 alert(
 "Registration Failed"
 );
+
+}finally{
 
 btn.innerHTML=
 "Register";

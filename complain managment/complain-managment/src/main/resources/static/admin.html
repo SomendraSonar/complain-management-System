@@ -343,14 +343,70 @@ Close
 
 <script>
 
+// =======================
+// LOGIN + ADMIN SECURITY
+// =======================
+
+const userId =
+localStorage.getItem("userId");
+
+const role =
+localStorage.getItem("role");
+
+const userName =
+localStorage.getItem("userName");
+
+if(!userId){
+
+alert(
+"Please login first"
+);
+
+window.location.href=
+"login.html";
+
+}
+
+if(role!=="ADMIN"){
+
+alert(
+"Access Denied"
+);
+
+window.location.href=
+"create.html";
+
+}
+
+
+// =======================
+// SHOW ADMIN NAME
+// =======================
+
+document.querySelector(
+".topbar div"
+).innerHTML=
+
+`👤 ${userName || "Admin"}`;
+
+
+// =======================
+// LOGOUT
+// =======================
+
 function logout(){
 
 localStorage.clear();
 
-window.location=
+window.location.href=
 "login.html";
 
 }
+
+
+// =======================
+// SEND RESPONSE
+// =======================
 
 async function sendResponse(id){
 
@@ -359,35 +415,63 @@ document.getElementById(
 `response${id}`
 ).value;
 
+if(!response){
+
+alert(
+"Write response first"
+);
+
+return;
+
+}
+
 await fetch(
+
 `${window.location.origin}/api/complaints/${id}/response?response=${encodeURIComponent(response)}`,
+
 {
 method:"PUT"
 }
+
 );
 
 loadComplaints();
 
 }
+
+
+// =======================
+// UPDATE STATUS
+// =======================
 
 async function updateStatus(id,status){
 
 await fetch(
+
 `${window.location.origin}/api/complaints/${id}?status=${status}`,
+
 {
 method:"PUT"
 }
+
 );
 
 loadComplaints();
 
 }
+
+
+// =======================
+// NOTIFICATIONS
+// =======================
 
 async function showNotifications(){
 
 const response=
 await fetch(
+
 `${window.location.origin}/api/notifications`
+
 );
 
 const data=
@@ -398,12 +482,19 @@ let output="";
 data.reverse().forEach((n)=>{
 
 output+=`
+
 <p>
+
 🔔 ${n.message}
+
 <br>
+
 <small>${n.time}</small>
+
 </p>
+
 <hr>
+
 `;
 
 });
@@ -423,11 +514,18 @@ notifyBox.style.display=
 
 }
 
+
+// =======================
+// TIMELINE
+// =======================
+
 async function viewTimeline(id){
 
 const response=
 await fetch(
+
 `${window.location.origin}/api/complaints/${id}/history`
+
 );
 
 const data=
@@ -438,12 +536,19 @@ let output="";
 data.forEach((h)=>{
 
 output+=`
+
 <p>
+
 <b>${h.action}</b>
+
 <br>
+
 ${h.time}
+
 </p>
+
 <hr>
+
 `;
 
 });
@@ -463,25 +568,40 @@ timelineModal.style.display=
 
 }
 
+
+// =======================
+// PDF
+// =======================
+
 function downloadComplaintPDF(id){
 
 window.open(
+
 `${window.location.origin}/api/complaints/${id}/pdf`
+
 );
 
 }
+
+
+// =======================
+// LOAD COMPLAINTS
+// =======================
 
 async function loadComplaints(){
 
 const response=
 await fetch(
+
 `${window.location.origin}/api/complaints`
+
 );
 
 const data=
 await response.json();
 
-total.innerText=data.length;
+total.innerText=
+data.length;
 
 pending.innerText=
 data.filter(
@@ -498,17 +618,24 @@ data.filter(
 (c)=>c.status==="Resolved"
 ).length;
 
+
 let output="";
+
 
 data.forEach((c)=>{
 
 let badge="pending";
 
-if(c.status==="Resolved")
+if(
+c.status==="Resolved"
+)
 badge="resolved";
 
-if(c.status==="In Progress")
+if(
+c.status==="In Progress"
+)
 badge="progress";
+
 
 output+=`
 
@@ -540,7 +667,8 @@ c.imageName
 ""
 }
 
-<p style="margin-top:15px">
+<p style=
+"margin-top:15px">
 
 Admin Response:
 
@@ -552,6 +680,7 @@ ${c.adminResponse || "No response"}
 
 </p>
 
+
 <textarea
 id=
 "response${c.id}"
@@ -561,10 +690,14 @@ placeholder=
 
 </textarea>
 
+
 <br>
 
+
 <button
-class="responseBtn"
+class=
+"responseBtn"
+
 onclick=
 "sendResponse(${c.id})">
 
@@ -572,8 +705,11 @@ Send Response
 
 </button>
 
+
 <button
-class="progressBtn"
+class=
+"progressBtn"
+
 onclick=
 "updateStatus(${c.id},'In Progress')">
 
@@ -581,8 +717,11 @@ In Progress
 
 </button>
 
+
 <button
-class="resolveBtn"
+class=
+"resolveBtn"
+
 onclick=
 "updateStatus(${c.id},'Resolved')">
 
@@ -590,8 +729,11 @@ Resolved
 
 </button>
 
+
 <button
-class="pdfBtn"
+class=
+"pdfBtn"
+
 onclick=
 "downloadComplaintPDF(${c.id})">
 
@@ -599,8 +741,11 @@ PDF
 
 </button>
 
+
 <button
-class="timelineBtn"
+class=
+"timelineBtn"
+
 onclick=
 "viewTimeline(${c.id})">
 
@@ -619,10 +764,23 @@ output;
 
 }
 
+
+// =======================
+// SEARCH
+// =======================
+
 search.addEventListener(
+
 "input",
+
 loadComplaints
+
 );
+
+
+// =======================
+// INITIAL LOAD
+// =======================
 
 loadComplaints();
 

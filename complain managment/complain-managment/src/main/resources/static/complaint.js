@@ -1,73 +1,192 @@
+window.onload = function () {
+
+    const userId =
+    localStorage.getItem(
+    "userId"
+    );
+
+    if (!userId) {
+
+        alert(
+        "Please login first"
+        );
+
+        window.location.href =
+        "login.html";
+
+        return;
+
+    }
+
+    const username =
+    localStorage.getItem(
+    "userName"
+    );
+
+    const nameBox =
+    document.getElementById(
+    "username"
+    );
+
+    if(nameBox){
+
+        nameBox.innerText =
+        username;
+
+    }
+
+};
+
+
 async function submitComplaint() {
 
-    const formData = new FormData();
+    const userId =
+    localStorage.getItem(
+    "userId"
+    );
+
+    if(!userId){
+
+        alert(
+        "Please login first"
+        );
+
+        window.location.href =
+        "login.html";
+
+        return;
+
+    }
+
+    const title =
+    document
+    .getElementById(
+    "title"
+    )
+    .value
+    .trim();
+
+    const description =
+    document
+    .getElementById(
+    "description"
+    )
+    .value
+    .trim();
+
+    if(
+    !title ||
+    !description
+    ){
+
+        alert(
+        "Please fill all fields"
+        );
+
+        return;
+
+    }
+
+    const formData =
+    new FormData();
 
     formData.append(
-        "title",
-        document.getElementById("title").value
+    "title",
+    title
     );
 
     formData.append(
-        "description",
-        document.getElementById("description").value
+    "description",
+    description
     );
 
     const fileInput =
-        document.getElementById("image");
+    document
+    .getElementById(
+    "image"
+    );
 
-    if (fileInput.files.length > 0) {
+    if(
+    fileInput.files.length > 0
+    ){
 
         formData.append(
-            "file",
-            fileInput.files[0]
+
+        "file",
+
+        fileInput.files[0]
+
         );
 
     }
 
     formData.append(
-        "userId",
-        localStorage.getItem("userId")
+    "userId",
+    userId
     );
 
     try {
 
-        const response = await fetch(
-            `${window.location.origin}/api/complaints/upload`,
-            {
-                method: "POST",
-                body: formData
-            }
+        const response =
+        await fetch(
+
+        `${window.location.origin}/api/complaints/upload`,
+
+        {
+
+        method:"POST",
+
+        body:formData
+
+        }
+
         );
 
-        if (response.ok) {
+        if(response.ok){
 
             alert(
-                "Complaint Submitted Successfully"
+            "Complaint Submitted Successfully"
             );
 
-            window.location.reload();
+            location.reload();
 
-        } else {
+        }
 
-            const errorText =
-                await response.text();
+        else{
 
-            console.log(errorText);
+            const error =
+            await response.text();
+
+            console.log(error);
 
             alert(
-                "Upload failed"
+            "Upload failed"
             );
 
         }
 
-    } catch (error) {
+    }
+
+    catch(error){
 
         console.log(error);
 
         alert(
-            "Error: " + error.message
+        "Error: "
+        + error.message
         );
 
     }
+
+}
+
+
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href=
+"login.html";
 
 }

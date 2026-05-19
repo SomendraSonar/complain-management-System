@@ -54,6 +54,32 @@ nav a:hover{
 color:#4f46e5;
 }
 
+.user-box{
+
+display:flex;
+align-items:center;
+gap:15px;
+
+}
+
+.user-name{
+
+font-weight:bold;
+color:#4f46e5;
+
+}
+
+.logout{
+
+background:#ef4444;
+padding:10px 15px;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+
+}
+
 .header{
 display:flex;
 justify-content:space-between;
@@ -150,6 +176,26 @@ margin-top:80px;
 
 <body>
 
+<script>
+
+const userId=
+localStorage.getItem(
+"userId"
+);
+
+if(!userId){
+
+alert(
+"Please login first"
+);
+
+window.location.href=
+"login.html";
+
+}
+
+</script>
+
 <nav>
 
 <div class="logo">
@@ -166,9 +212,34 @@ Create
 My Complaints
 </a>
 
-<a href="admin.html">
+<a
+id="dashboardLink"
+href="admin.html">
+
 Dashboard
+
 </a>
+
+</div>
+
+<div class="user-box">
+
+<div class="user-name">
+
+👤
+<span id="username">
+
+</span>
+
+</div>
+
+<button
+class="logout"
+onclick="logout()">
+
+Logout
+
+</button>
 
 </div>
 
@@ -199,11 +270,43 @@ Loading...
 
 <script>
 
+document.getElementById(
+"username"
+).innerText=
+
+localStorage.getItem(
+"userName"
+);
+
+if(
+localStorage.getItem(
+"role"
+)!=="ADMIN"
+){
+
+document.getElementById(
+"dashboardLink"
+).style.display=
+"none";
+
+}
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href=
+"login.html";
+
+}
+
+
 async function loadComplaints(){
 
 try{
 
 const response=
+
 await fetch(
 `${window.location.origin}/api/complaints`
 );
@@ -218,7 +321,9 @@ const data=
 await response.json();
 
 const search=
-document.getElementById(
+
+document
+.getElementById(
 "search"
 )
 
@@ -229,10 +334,11 @@ document.getElementById(
 let output="";
 
 const filtered=
+
 data.filter((c)=>
 
 String(
-c.title || ""
+c.title||""
 )
 
 .toLowerCase()
@@ -242,6 +348,7 @@ search
 )
 
 );
+
 
 if(filtered.length===0){
 
@@ -263,6 +370,7 @@ No Complaints Found
 `;
 
 }
+
 
 filtered.forEach((c)=>{
 
@@ -306,19 +414,15 @@ ${c.status}
 
 📁
 
-${c.category || "General"}
+${c.category||"General"}
 
 </div>
 
 ${
 c.imageName
-
 ?
-
 `<img src="${window.location.origin}/uploads/${c.imageName}">`
-
 :
-
 ""
 }
 
@@ -328,7 +432,6 @@ Created:
 
 ${
 c.createdAt
-
 ?
 
 new Date(
@@ -353,9 +456,7 @@ c.createdAt
 
 document.getElementById(
 "complaintList"
-)
-
-.innerHTML=
+).innerHTML=
 output;
 
 }catch(error){

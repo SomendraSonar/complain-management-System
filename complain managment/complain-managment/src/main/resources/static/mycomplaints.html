@@ -54,6 +54,30 @@ nav a:hover{
 color:#4f46e5;
 }
 
+.user-box{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.user{
+font-weight:bold;
+color:#4f46e5;
+}
+
+.logout{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+background:#ef4444;
+color:white;
+cursor:pointer;
+}
+
+.logout:hover{
+background:#dc2626;
+}
+
 h1{
 margin-bottom:25px;
 color:#333;
@@ -154,6 +178,27 @@ color:gray;
 
 <body>
 
+<script>
+
+const userId=
+localStorage.getItem(
+"userId"
+);
+
+if(!userId){
+
+alert(
+"Please login first"
+);
+
+window.location.href=
+"login.html";
+
+}
+
+</script>
+
+
 <nav>
 
 <div class="logo">
@@ -170,23 +215,89 @@ Create
 My Complaints
 </a>
 
-<a href="admin.html">
+<a
+id="dashboardLink"
+href="admin.html">
+
 Dashboard
+
 </a>
+
+</div>
+
+
+<div class="user-box">
+
+<div class="user">
+
+👤
+<span id="username"></span>
+
+</div>
+
+<button
+class="logout"
+onclick="logout()">
+
+Logout
+
+</button>
 
 </div>
 
 </nav>
 
+
 <h1>
+
 My Complaints
+
 </h1>
 
-<div id="complaints" class="grid">
+
+<div
+id="complaints"
+class="grid">
+
 Loading...
+
 </div>
 
+
 <script>
+
+document.getElementById(
+"username"
+).innerText=
+
+localStorage.getItem(
+"userName"
+);
+
+
+if(
+localStorage.getItem(
+"role"
+)!=="ADMIN"
+){
+
+document.getElementById(
+"dashboardLink"
+).style.display=
+"none";
+
+}
+
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href=
+"login.html";
+
+}
+
 
 async function loadComplaints(){
 
@@ -215,6 +326,7 @@ await response.json();
 
 let output="";
 
+
 if(data.length===0){
 
 output=`
@@ -233,10 +345,12 @@ No Complaints Found
 
 }
 
+
 data.forEach((c)=>{
 
 let badgeClass=
 c.status.replace(" ","");
+
 
 output+=`
 
@@ -261,12 +375,16 @@ ${c.status}
 </div>
 
 ${
-c.imageName?
+c.imageName
+?
 
 `<img src="${window.location.origin}/uploads/${c.imageName}">`
 
-:""
+:
+
+""
 }
+
 
 <div class="response">
 
@@ -282,23 +400,37 @@ ${c.adminResponse || "No response yet"}
 
 </div>
 
+
 <div class="date">
 
 Created:
 
-${new Date(
+${
+new Date(
 c.createdAt
-).toLocaleString()}
+).toLocaleString(
+'en-IN',
+{
+timeZone:'Asia/Kolkata',
+day:'2-digit',
+month:'2-digit',
+year:'numeric',
+hour:'2-digit',
+minute:'2-digit',
+second:'2-digit',
+hour12:true
+}
+)
+}
 
 </div>
+
 
 <button
 
 onclick=
 
-"window.open(
-'${window.location.origin}/api/complaints/${c.id}/pdf'
-)"
+"window.open('${window.location.origin}/api/complaints/${c.id}/pdf')"
 
 >
 
@@ -314,9 +446,11 @@ Download PDF
 
 });
 
+
 document.getElementById(
 "complaints"
-).innerHTML=output;
+).innerHTML=
+output;
 
 }catch(error){
 
@@ -324,7 +458,9 @@ console.log(error);
 
 document.getElementById(
 "complaints"
-).innerHTML=`
+)
+
+.innerHTML=`
 
 <div class="empty">
 

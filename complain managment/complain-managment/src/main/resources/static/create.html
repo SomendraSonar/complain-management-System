@@ -1,269 +1,527 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Create Complaint</title>
+<head>
+<title>Create Complaint</title>
 
-    <meta charset="UTF-8" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+/>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+<style>
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-      body {
-        background: linear-gradient(135deg, #eef2ff, #dbeafe);
+body{
+background:linear-gradient(135deg,#eef2ff,#dbeafe);
+min-height:100vh;
+padding:30px;
+}
 
-        min-height: 100vh;
+nav{
 
-        padding: 30px;
-      }
+background:white;
 
-      nav {
-        background: white;
+padding:18px;
 
-        padding: 18px;
+border-radius:18px;
 
-        border-radius: 18px;
+box-shadow:
+0 5px 20px rgba(0,0,0,.1);
 
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+display:flex;
 
-        display: flex;
+justify-content:space-between;
 
-        justify-content: space-between;
+align-items:center;
 
-        align-items: center;
+margin-bottom:30px;
 
-        margin-bottom: 30px;
-      }
+}
 
-      .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: #4f46e5;
-      }
+.logo{
 
-      nav a {
-        text-decoration: none;
+font-size:24px;
+font-weight:bold;
+color:#4f46e5;
 
-        margin-left: 20px;
+}
 
-        font-weight: bold;
+nav a{
 
-        color: #333;
-      }
+text-decoration:none;
 
-      .container {
-        max-width: 700px;
+margin-left:20px;
 
-        margin: auto;
+font-weight:bold;
 
-        background: white;
+color:#333;
 
-        padding: 35px;
+}
 
-        border-radius: 25px;
+nav a:hover{
 
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
-      }
+color:#4f46e5;
 
-      h1 {
-        margin-bottom: 20px;
+}
 
-        color: #333;
-      }
+.user-box{
 
-      .input-group {
-        margin-bottom: 20px;
-      }
+display:flex;
 
-      label {
-        display: block;
+align-items:center;
 
-        margin-bottom: 8px;
+gap:15px;
 
-        font-weight: bold;
-      }
+}
 
-      input,
-      textarea {
-        width: 100%;
+.user{
 
-        padding: 15px;
+font-weight:bold;
 
-        border: 1px solid #ddd;
+color:#4f46e5;
 
-        border-radius: 12px;
+}
 
-        outline: none;
+.logout{
 
-        font-size: 15px;
-      }
+background:#ef4444;
 
-      textarea {
-        height: 140px;
+padding:10px 15px;
 
-        resize: none;
-      }
+border:none;
 
-      .counter {
-        font-size: 13px;
+border-radius:10px;
 
-        text-align: right;
+color:white;
 
-        color: gray;
+cursor:pointer;
 
-        margin-top: 5px;
-      }
+}
 
-      .upload-box {
-        border: 2px dashed #bbb;
+.container{
 
-        padding: 25px;
+max-width:700px;
 
-        border-radius: 15px;
+margin:auto;
 
-        text-align: center;
+background:white;
 
-        background: #fafafa;
+padding:35px;
 
-        cursor: pointer;
-      }
+border-radius:25px;
 
-      .upload-box:hover {
-        border-color: #4f46e5;
-      }
+box-shadow:
+0 10px 35px rgba(0,0,0,.1);
 
-      #preview {
-        margin-top: 20px;
+}
 
-        max-width: 220px;
+h1{
 
-        display: none;
+margin-bottom:20px;
+color:#333;
 
-        border-radius: 12px;
-      }
+}
 
-      button {
-        width: 100%;
+.input-group{
 
-        padding: 15px;
+margin-bottom:20px;
 
-        border: none;
+}
 
-        border-radius: 12px;
+label{
 
-        background: #4f46e5;
+display:block;
 
-        color: white;
+margin-bottom:8px;
 
-        font-size: 16px;
+font-weight:bold;
 
-        font-weight: bold;
+}
 
-        cursor: pointer;
+input,
+textarea{
 
-        transition: 0.3s;
-      }
+width:100%;
 
-      button:hover {
-        background: #3730a3;
-      }
-    </style>
-  </head>
+padding:15px;
 
-  <body>
-    <nav>
-      <div class="logo">Complaint Portal</div>
+border:1px solid #ddd;
 
-      <div>
-        <a href="index.html"> Create </a>
+border-radius:12px;
 
-        <a href="mycomplaints.html"> My Complaints </a>
+outline:none;
 
-        <a href="admin.html"> Dashboard </a>
-      </div>
-    </nav>
+font-size:15px;
 
-    <div class="container">
-      <h1>Create Complaint</h1>
+}
 
-      <div class="input-group">
-        <label> Complaint Title </label>
+textarea{
 
-        <input id="title" placeholder="Enter title" />
-      </div>
+height:140px;
 
-      <div class="input-group">
-        <label> Description </label>
+resize:none;
 
-        <textarea
-          id="description"
-          placeholder="Describe issue..."
-          oninput="countText()"
-        >
-        </textarea>
+}
 
-        <div class="counter" id="count">0/300</div>
-      </div>
+.counter{
 
-      <div class="input-group">
-        <label> Upload Image </label>
+font-size:13px;
 
-        <label class="upload-box">
-          <i class="fa-solid fa-cloud-arrow-up"> </i>
+text-align:right;
 
-          <br /><br />
+color:gray;
 
-          Choose complaint image
+margin-top:5px;
 
-          <input type="file" id="image" hidden />
-        </label>
+}
 
-        <img id="preview" />
-      </div>
+.upload-box{
 
-      <button id="submitBtn" onclick="submitComplaint()">
-        Submit Complaint
-      </button>
-    </div>
+border:2px dashed #bbb;
 
-    <script src="complaint.js"></script>
+padding:25px;
 
-    <script>
-      function countText() {
-        let len = document.getElementById("description").value.length;
+border-radius:15px;
 
-        document.getElementById("count").innerHTML = len + "/300";
-      }
+text-align:center;
 
-      document
-        .getElementById("image")
+background:#fafafa;
 
-        .addEventListener(
-          "change",
+cursor:pointer;
 
-          function () {
-            const file = this.files[0];
+}
 
-            if (file) {
-              const img = document.getElementById("preview");
+.upload-box:hover{
 
-              img.src = URL.createObjectURL(file);
+border-color:#4f46e5;
 
-              img.style.display = "block";
-            }
-          },
-        );
-    </script>
-  </body>
+}
+
+#preview{
+
+margin-top:20px;
+
+max-width:220px;
+
+display:none;
+
+border-radius:12px;
+
+}
+
+.submitBtn{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#4f46e5;
+
+color:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.submitBtn:hover{
+
+background:#3730a3;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script>
+
+if(
+!localStorage.getItem(
+"userId"
+)
+){
+
+alert(
+"Please login first"
+);
+
+window.location.href=
+"login.html";
+
+}
+
+</script>
+
+<nav>
+
+<div class="logo">
+
+Complaint Portal
+
+</div>
+
+<div>
+
+<a href="create.html">
+
+Create
+
+</a>
+
+<a href="mycomplaints.html">
+
+My Complaints
+
+</a>
+
+<a
+id="dashboardLink"
+href="admin.html">
+
+Dashboard
+
+</a>
+
+</div>
+
+<div class="user-box">
+
+<div class="user">
+
+👤
+<span id="username">
+
+</span>
+
+</div>
+
+<button
+class="logout"
+onclick="logout()">
+
+Logout
+
+</button>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<h1>
+
+Create Complaint
+
+</h1>
+
+<div class="input-group">
+
+<label>
+
+Complaint Title
+
+</label>
+
+<input
+id="title"
+placeholder="Enter title"
+/>
+
+</div>
+
+
+<div class="input-group">
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+id="description"
+placeholder=
+"Describe issue..."
+oninput=
+"countText()">
+
+</textarea>
+
+<div
+class="counter"
+id="count">
+
+0/300
+
+</div>
+
+</div>
+
+
+<div class="input-group">
+
+<label>
+
+Upload Image
+
+</label>
+
+<label
+class=
+"upload-box">
+
+<i class=
+"fa-solid fa-cloud-arrow-up">
+
+</i>
+
+<br><br>
+
+Choose complaint image
+
+<input
+type="file"
+id="image"
+hidden/>
+
+</label>
+
+<img id="preview"/>
+
+</div>
+
+
+<button
+class="submitBtn"
+onclick=
+"submitComplaint()">
+
+Submit Complaint
+
+</button>
+
+</div>
+
+
+<script src="complaint.js"></script>
+
+
+<script>
+
+document.getElementById(
+"username"
+).innerText=
+
+localStorage.getItem(
+"userName"
+);
+
+
+if(
+localStorage.getItem(
+"role"
+)!=="ADMIN"
+){
+
+document.getElementById(
+"dashboardLink"
+).style.display=
+"none";
+
+}
+
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href=
+"login.html";
+
+}
+
+
+function countText(){
+
+let len=
+
+document.getElementById(
+"description"
+)
+
+.value.length;
+
+
+document.getElementById(
+"count"
+)
+
+.innerHTML=
+
+len+"/300";
+
+}
+
+
+document
+.getElementById(
+"image"
+)
+
+.addEventListener(
+
+"change",
+
+function(){
+
+const file=
+this.files[0];
+
+if(file){
+
+const img=
+
+document.getElementById(
+"preview"
+);
+
+img.src=
+URL.createObjectURL(
+file
+);
+
+img.style.display=
+"block";
+
+}
+
+}
+
+);
+
+</script>
+
+</body>
 </html>
