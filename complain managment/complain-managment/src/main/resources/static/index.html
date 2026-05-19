@@ -1,269 +1,267 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Create Complaint</title>
+<head>
+    <title>Complaint Portal</title>
 
-    <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
+<style>
 
-      body {
-        background: linear-gradient(135deg, #eef2ff, #dbeafe);
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-        min-height: 100vh;
+body{
 
-        padding: 30px;
-      }
+height:100vh;
 
-      nav {
-        background: white;
+display:flex;
 
-        padding: 18px;
+justify-content:center;
 
-        border-radius: 18px;
+align-items:center;
 
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+background:
+linear-gradient(
+135deg,
+#4f46e5,
+#7c3aed,
+#06b6d4
+);
 
-        display: flex;
+overflow:hidden;
 
-        justify-content: space-between;
+color:white;
 
-        align-items: center;
+}
 
-        margin-bottom: 30px;
-      }
+.background{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+}
 
-      .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: #4f46e5;
-      }
+.circle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.1);
+animation:float 8s infinite linear;
+}
 
-      nav a {
-        text-decoration: none;
+.circle:nth-child(1){
+width:250px;
+height:250px;
+top:10%;
+left:10%;
+}
 
-        margin-left: 20px;
+.circle:nth-child(2){
+width:350px;
+height:350px;
+bottom:5%;
+right:5%;
+}
 
-        font-weight: bold;
+.circle:nth-child(3){
+width:150px;
+height:150px;
+top:65%;
+left:25%;
+}
 
-        color: #333;
-      }
+@keyframes float{
 
-      .container {
-        max-width: 700px;
+0%{
+transform:translateY(0);
+}
 
-        margin: auto;
+50%{
+transform:translateY(-30px);
+}
 
-        background: white;
+100%{
+transform:translateY(0);
+}
 
-        padding: 35px;
+}
 
-        border-radius: 25px;
+.container{
 
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
-      }
+position:relative;
 
-      h1 {
-        margin-bottom: 20px;
+width:450px;
 
-        color: #333;
-      }
+padding:40px;
 
-      .input-group {
-        margin-bottom: 20px;
-      }
+border-radius:25px;
 
-      label {
-        display: block;
+background:rgba(255,255,255,.15);
 
-        margin-bottom: 8px;
+backdrop-filter:blur(18px);
 
-        font-weight: bold;
-      }
+box-shadow:
+0 10px 35px rgba(0,0,0,.3);
 
-      input,
-      textarea {
-        width: 100%;
+text-align:center;
 
-        padding: 15px;
+z-index:10;
 
-        border: 1px solid #ddd;
+animation:fadeIn 1s ease;
 
-        border-radius: 12px;
+}
 
-        outline: none;
+.logo{
 
-        font-size: 15px;
-      }
+font-size:70px;
 
-      textarea {
-        height: 140px;
+margin-bottom:15px;
 
-        resize: none;
-      }
+}
 
-      .counter {
-        font-size: 13px;
+h1{
 
-        text-align: right;
+font-size:35px;
 
-        color: gray;
+margin-bottom:10px;
 
-        margin-top: 5px;
-      }
+}
 
-      .upload-box {
-        border: 2px dashed #bbb;
+p{
 
-        padding: 25px;
+opacity:.9;
 
-        border-radius: 15px;
+line-height:1.6;
 
-        text-align: center;
+margin-bottom:20px;
 
-        background: #fafafa;
+}
 
-        cursor: pointer;
-      }
+.loader{
 
-      .upload-box:hover {
-        border-color: #4f46e5;
-      }
+margin:auto;
 
-      #preview {
-        margin-top: 20px;
+width:45px;
+height:45px;
 
-        max-width: 220px;
+border:4px solid rgba(255,255,255,.3);
 
-        display: none;
+border-top:4px solid white;
 
-        border-radius: 12px;
-      }
+border-radius:50%;
 
-      button {
-        width: 100%;
+animation:spin 1s linear infinite;
 
-        padding: 15px;
+}
 
-        border: none;
+.credit{
 
-        border-radius: 12px;
+position:absolute;
 
-        background: #4f46e5;
+bottom:15px;
 
-        color: white;
+right:20px;
 
-        font-size: 16px;
+font-size:14px;
 
-        font-weight: bold;
+opacity:.8;
 
-        cursor: pointer;
+background:rgba(255,255,255,.12);
 
-        transition: 0.3s;
-      }
+padding:8px 14px;
 
-      button:hover {
-        background: #3730a3;
-      }
-    </style>
-  </head>
+border-radius:20px;
 
-  <body>
-    <nav>
-      <div class="logo">Complaint Portal</div>
+backdrop-filter:blur(10px);
 
-      <div>
-        <a href="index.html"> Create </a>
+}
 
-        <a href="mycomplaints.html"> My Complaints </a>
+.credit i{
 
-        <a href="admin.html"> Dashboard </a>
-      </div>
-    </nav>
+margin-right:6px;
 
-    <div class="container">
-      <h1>Create Complaint</h1>
+}
 
-      <div class="input-group">
-        <label> Complaint Title </label>
+@keyframes spin{
 
-        <input id="title" placeholder="Enter title" />
-      </div>
+100%{
+transform:rotate(360deg);
+}
 
-      <div class="input-group">
-        <label> Description </label>
+}
 
-        <textarea
-          id="description"
-          placeholder="Describe issue..."
-          oninput="countText()"
-        >
-        </textarea>
+@keyframes fadeIn{
 
-        <div class="counter" id="count">0/300</div>
-      </div>
+from{
+opacity:0;
+transform:translateY(30px);
+}
 
-      <div class="input-group">
-        <label> Upload Image </label>
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-        <label class="upload-box">
-          <i class="fa-solid fa-cloud-arrow-up"> </i>
+}
 
-          <br /><br />
+</style>
 
-          Choose complaint image
+</head>
 
-          <input type="file" id="image" hidden />
-        </label>
+<body>
 
-        <img id="preview" />
-      </div>
+<div class="background">
 
-      <button id="submitBtn" onclick="submitComplaint()">
-        Submit Complaint
-      </button>
-    </div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
 
-    <script src="complaint.js"></script>
+</div>
 
-    <script>
-      function countText() {
-        let len = document.getElementById("description").value.length;
+<div class="container">
 
-        document.getElementById("count").innerHTML = len + "/300";
-      }
+<div class="logo">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
 
-      document
-        .getElementById("image")
+<h1>Complaint Portal</h1>
 
-        .addEventListener(
-          "change",
+<p>
+Welcome to Complaint Management System
+<br><br>
+Redirecting to secure login...
+</p>
 
-          function () {
-            const file = this.files[0];
+<div class="loader"></div>
 
-            if (file) {
-              const img = document.getElementById("preview");
+</div>
 
-              img.src = URL.createObjectURL(file);
+<div class="credit">
 
-              img.style.display = "block";
-            }
-          },
-        );
-    </script>
-  </body>
+<i class="fa-solid fa-code"></i>
+
+Made by <b>Somendra Sonar</b>
+
+</div>
+
+<script>
+
+setTimeout(()=>{
+
+window.location.href=
+"login.html";
+
+},2500);
+
+</script>
+
+</body>
 </html>
