@@ -1,99 +1,73 @@
-async function submitComplaint(){
+async function submitComplaint() {
 
-const formData = new FormData();
+    const formData = new FormData();
 
-formData.append(
-"title",
+    formData.append(
+        "title",
+        document.getElementById("title").value
+    );
 
-document
-.getElementById(
-"title"
-).value
-);
+    formData.append(
+        "description",
+        document.getElementById("description").value
+    );
 
-formData.append(
-"description",
+    const fileInput =
+        document.getElementById("image");
 
-document
-.getElementById(
-"description"
-).value
-);
+    if (fileInput.files.length > 0) {
 
-const fileInput =
-document
-.getElementById(
-"image"
-);
+        formData.append(
+            "file",
+            fileInput.files[0]
+        );
 
-if(
-fileInput.files.length>0
-){
+    }
 
-formData.append(
+    formData.append(
+        "userId",
+        localStorage.getItem("userId")
+    );
 
-"file",
+    try {
 
-fileInput
-.files[0]
+        const response = await fetch(
+            `${window.location.origin}/api/complaints/upload`,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
 
-);
+        if (response.ok) {
 
-}
+            alert(
+                "Complaint Submitted Successfully"
+            );
 
-formData.append(
+            window.location.reload();
 
-"userId",
+        } else {
 
-localStorage
-.getItem(
-"userId")
+            const errorText =
+                await response.text();
 
-);
+            console.log(errorText);
 
-try{
+            alert(
+                "Upload failed"
+            );
 
-const response=
+        }
 
-await fetch(
+    } catch (error) {
 
-"http://localhost:8080/api/complaints/upload",
+        console.log(error);
 
-{
+        alert(
+            "Error: " + error.message
+        );
 
-method:"POST",
-
-body:
-formData
-
-}
-
-);
-
-if(response.ok){
-
-alert(
-"Complaint Submitted Successfully"
-);
-
-window.location.reload();
-
-}else{
-
-alert(
-"Upload failed"
-);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-alert(
-"Error"
-);
-
-}
+    }
 
 }
