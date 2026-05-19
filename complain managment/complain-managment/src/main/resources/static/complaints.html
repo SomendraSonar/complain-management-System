@@ -1,246 +1,256 @@
 <!doctype html>
 <html>
-  <head>
-    <title>All Complaints</title>
+<head>
+<title>All Complaints</title>
+
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#eef2ff,#dbeafe);
+padding:30px;
+min-height:100vh;
+}
+
+nav{
+background:white;
+padding:18px;
+border-radius:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+margin-bottom:30px;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#4f46e5;
+}
+
+nav a{
+text-decoration:none;
+margin-left:20px;
+font-weight:bold;
+color:#333;
+}
+
+nav a:hover{
+color:#4f46e5;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:12px;
+width:300px;
+border:none;
+border-radius:12px;
+outline:none;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card h2{
+margin-bottom:10px;
+color:#333;
+}
+
+.badge{
+display:inline-block;
+padding:8px 15px;
+border-radius:20px;
+font-size:14px;
+font-weight:bold;
+color:white;
+margin-top:10px;
+}
 
-    <meta charset="UTF-8" />
+.Pending{
+background:orange;
+}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+.Resolved{
+background:green;
+}
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+.InProgress{
+background:#2563eb;
+}
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
+.category{
+margin-top:12px;
+padding:8px;
+background:#f3f4f6;
+border-radius:10px;
+display:inline-block;
+}
 
-      body {
-        background: linear-gradient(135deg, #eef2ff, #dbeafe);
+img{
+width:100%;
+max-height:220px;
+object-fit:cover;
+border-radius:12px;
+margin-top:15px;
+}
 
-        padding: 30px;
+.date{
+margin-top:15px;
+font-size:13px;
+color:gray;
+}
 
-        min-height: 100vh;
-      }
+.empty{
+text-align:center;
+font-size:25px;
+color:gray;
+margin-top:80px;
+}
 
-      nav {
-        background: white;
+</style>
 
-        padding: 18px;
+</head>
 
-        border-radius: 18px;
+<body>
 
-        display: flex;
+<nav>
 
-        justify-content: space-between;
+<div class="logo">
+Complaint Portal
+</div>
 
-        align-items: center;
+<div>
 
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+<a href="create.html">
+Create
+</a>
 
-        margin-bottom: 30px;
-      }
+<a href="mycomplaints.html">
+My Complaints
+</a>
 
-      .logo {
-        font-size: 24px;
+<a href="admin.html">
+Dashboard
+</a>
 
-        font-weight: bold;
+</div>
 
-        color: #4f46e5;
-      }
+</nav>
 
-      nav a {
-        text-decoration: none;
+<div class="header">
 
-        margin-left: 20px;
+<h1>
+All Complaints
+</h1>
 
-        font-weight: bold;
+<input
+class="search"
+id="search"
+placeholder="Search complaints..."
+oninput="loadComplaints()"
+/>
 
-        color: #333;
-      }
+</div>
 
-      nav a:hover {
-        color: #4f46e5;
-      }
+<div
+id="complaintList"
+class="grid">
 
-      .header {
-        display: flex;
+Loading...
 
-        justify-content: space-between;
+</div>
 
-        align-items: center;
+<script>
 
-        margin-bottom: 25px;
-      }
+async function loadComplaints(){
 
-      .search {
-        padding: 12px;
+try{
 
-        width: 300px;
+const response=
+await fetch(
+`${window.location.origin}/api/complaints`
+);
 
-        border: none;
+if(!response.ok){
 
-        border-radius: 12px;
+throw new Error();
 
-        outline: none;
+}
 
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
+const data=
+await response.json();
 
-      .grid {
-        display: grid;
+const search=
+document.getElementById(
+"search"
+)
 
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+.value
 
-        gap: 25px;
-      }
+.toLowerCase();
 
-      .card {
-        background: white;
+let output="";
 
-        padding: 25px;
+const filtered=
+data.filter((c)=>
 
-        border-radius: 20px;
+String(
+c.title || ""
+)
 
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+.toLowerCase()
 
-        transition: 0.3s;
-      }
+.includes(
+search
+)
 
-      .card:hover {
-        transform: translateY(-6px);
-      }
+);
 
-      .card h2 {
-        margin-bottom: 10px;
+if(filtered.length===0){
 
-        color: #333;
-      }
-
-      .badge {
-        display: inline-block;
-
-        padding: 8px 15px;
-
-        border-radius: 20px;
-
-        font-size: 14px;
-
-        font-weight: bold;
-
-        color: white;
-
-        margin-top: 10px;
-      }
-
-      .Pending {
-        background: orange;
-      }
-
-      .Resolved {
-        background: green;
-      }
-
-      .InProgress {
-        background: #2563eb;
-      }
-
-      .category {
-        margin-top: 12px;
-
-        padding: 8px;
-
-        background: #f3f4f6;
-
-        border-radius: 10px;
-
-        display: inline-block;
-      }
-
-      img {
-        width: 100%;
-
-        max-height: 220px;
-
-        object-fit: cover;
-
-        border-radius: 12px;
-
-        margin-top: 15px;
-      }
-
-      .date {
-        margin-top: 15px;
-
-        font-size: 13px;
-
-        color: gray;
-      }
-
-      .empty {
-        text-align: center;
-
-        font-size: 25px;
-
-        color: gray;
-
-        margin-top: 80px;
-      }
-    </style>
-  </head>
-
-  <body>
-    <nav>
-      <div class="logo">Complaint Portal</div>
-
-      <div>
-        <a href="index.html"> Create </a>
-
-        <a href="mycomplaints.html"> My Complaints </a>
-
-        <a href="admin.html"> Dashboard </a>
-      </div>
-    </nav>
-
-    <div class="header">
-      <h1>All Complaints</h1>
-
-      <input
-        class="search"
-        id="search"
-        placeholder="Search complaints..."
-        oninput="loadComplaints()"
-      />
-    </div>
-
-    <div id="complaintList" class="grid">Loading...</div>
-
-    <script>
-      async function loadComplaints() {
-        const response = await fetch("http://localhost:8080/api/complaints");
-
-        const data = await response.json();
-
-        const search = document.getElementById("search").value.toLowerCase();
-
-        let output = "";
-
-        const filtered = data.filter((c) =>
-          String(c.title).toLowerCase().includes(search),
-        );
-
-        if (filtered.length === 0) {
-          output = `
+output=`
 
 <div class="empty">
 
-<i
-class="fa-solid fa-folder-open">
+<i class=
+"fa-solid fa-folder-open">
 
 </i>
 
@@ -251,12 +261,23 @@ No Complaints Found
 </div>
 
 `;
-        }
 
-        filtered.forEach((c) => {
-          let badgeClass = String(c.status).replace(" ", "");
+}
 
-          output += `
+filtered.forEach((c)=>{
+
+let badgeClass=
+
+String(
+c.status
+)
+
+.replace(
+" ",
+""
+);
+
+output+=`
 
 <div class="card">
 
@@ -272,16 +293,16 @@ ${c.description}
 
 </p>
 
-
 <div
-class="badge ${badgeClass}">
+class=
+"badge ${badgeClass}">
 
 ${c.status}
 
 </div>
 
-
-<div class="category">
+<div class=
+"category">
 
 📁
 
@@ -289,35 +310,77 @@ ${c.category || "General"}
 
 </div>
 
-
 ${
-  c.imageName
-    ? `<img src=
+c.imageName
 
-"http://localhost:8080/uploads/${c.imageName}"
+?
 
->`
-    : ""
+`<img src="${window.location.origin}/uploads/${c.imageName}">`
+
+:
+
+""
 }
-
 
 <div class="date">
 
 Created:
 
-${c.createdAt ? new Date(c.createdAt).toLocaleString() : "Unknown"}
+${
+c.createdAt
+
+?
+
+new Date(
+c.createdAt
+)
+
+.toLocaleString()
+
+:
+
+"Unknown"
+
+}
 
 </div>
 
 </div>
 
 `;
-        });
 
-        document.getElementById("complaintList").innerHTML = output;
-      }
+});
 
-      loadComplaints();
-    </script>
-  </body>
+document.getElementById(
+"complaintList"
+)
+
+.innerHTML=
+output;
+
+}catch(error){
+
+console.log(error);
+
+document.getElementById(
+"complaintList"
+)
+
+.innerHTML=
+
+`<div class="empty">
+
+Error loading complaints
+
+</div>`;
+
+}
+
+}
+
+loadComplaints();
+
+</script>
+
+</body>
 </html>

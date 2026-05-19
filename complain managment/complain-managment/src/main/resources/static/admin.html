@@ -1,455 +1,531 @@
-<!-- SOMENDRA IS ADMIN -->
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-    <title>Admin Dashboard</title>
-
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        background: #f4f7fb;
-        display: flex;
-      }
-
-      .sidebar {
-        width: 250px;
-        height: 100vh;
-        background: #111827;
-        color: white;
-        padding: 25px;
-        position: fixed;
-      }
-
-      .logo {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 30px;
-      }
-
-      .sidebar a {
-        display: block;
-        color: #d1d5db;
-        text-decoration: none;
-        padding: 14px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        transition: 0.3s;
-      }
-
-      .sidebar a:hover {
-        background: #2563eb;
-        color: white;
-      }
-
-      .main {
-        margin-left: 270px;
-        padding: 30px;
-        width: 100%;
-      }
-
-      .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: white;
-        padding: 15px;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      .search {
-        width: 60%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
-        gap: 20px;
-        margin-top: 30px;
-      }
-
-      .card {
-        background: white;
-        padding: 25px;
-        border-radius: 24px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      .number {
-        font-size: 35px;
-        font-weight: bold;
-        color: #2563eb;
-      }
-
-      .complaint-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 25px;
-        margin-top: 30px;
-      }
-
-      .complaint {
-        background: white;
-        padding: 25px;
-        border-radius: 25px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      .badge {
-        padding: 7px 15px;
-        border-radius: 50px;
-        color: white;
-        font-size: 12px;
-      }
-
-      .pending {
-        background: #f59e0b;
-      }
-
-      .progress {
-        background: #2563eb;
-      }
-
-      .resolved {
-        background: #16a34a;
-      }
-
-      img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 15px;
-        margin-top: 15px;
-      }
-
-      textarea {
-        width: 100%;
-        padding: 12px;
-        margin-top: 15px;
-        border-radius: 12px;
-        border: 1px solid #ddd;
-      }
-
-      button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        margin-top: 10px;
-        margin-right: 5px;
-        color: white;
-      }
-
-      .responseBtn {
-        background: #111827;
-      }
-
-      .progressBtn {
-        background: #2563eb;
-      }
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<title>Admin Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+display:flex;
+}
+
+.sidebar{
+width:250px;
+height:100vh;
+background:#111827;
+color:white;
+padding:25px;
+position:fixed;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.sidebar a{
+display:block;
+color:#d1d5db;
+text-decoration:none;
+padding:14px;
+border-radius:12px;
+margin-bottom:10px;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:#2563eb;
+color:white;
+}
+
+.main{
+margin-left:270px;
+padding:30px;
+width:100%;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:15px;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.search{
+width:60%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:12px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:24px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.number{
+font-size:35px;
+font-weight:bold;
+color:#2563eb;
+}
+
+.complaint-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+gap:25px;
+margin-top:30px;
+}
+
+.complaint{
+background:white;
+padding:25px;
+border-radius:25px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.badge{
+padding:7px 15px;
+border-radius:50px;
+color:white;
+font-size:12px;
+}
+
+.pending{
+background:#f59e0b;
+}
 
-      .resolveBtn {
-        background: #16a34a;
-      }
+.progress{
+background:#2563eb;
+}
 
-      .pdfBtn {
-        background: #dc2626;
-      }
+.resolved{
+background:#16a34a;
+}
 
-      .timelineBtn {
-        background: #7c3aed;
-      }
+img{
+width:100%;
+height:250px;
+object-fit:cover;
+border-radius:15px;
+margin-top:15px;
+}
 
-      #timelineModal,
-      #notifyBox {
-        display: none;
+textarea{
+width:100%;
+padding:12px;
+margin-top:15px;
+border-radius:12px;
+border:1px solid #ddd;
+}
 
-        position: fixed;
+button{
+padding:10px 15px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+margin-top:10px;
+margin-right:5px;
+color:white;
+}
 
-        background: white;
+.responseBtn{
+background:#111827;
+}
 
-        padding: 25px;
+.progressBtn{
+background:#2563eb;
+}
 
-        border-radius: 20px;
+.resolveBtn{
+background:#16a34a;
+}
 
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+.pdfBtn{
+background:#dc2626;
+}
 
-        z-index: 999;
-      }
+.timelineBtn{
+background:#7c3aed;
+}
 
-      #timelineModal {
-        top: 10%;
-        left: 35%;
-        width: 450px;
-      }
+#timelineModal,
+#notifyBox{
 
-      #notifyBox {
-        right: 20px;
-        top: 80px;
-        width: 320px;
-        max-height: 400px;
-        overflow: auto;
-      }
-    </style>
-  </head>
+display:none;
 
-  <body>
-    <div class="sidebar">
-      <div class="logo">Complaint CMS</div>
+position:fixed;
 
-      <a href="admin.html">Dashboard</a>
+background:white;
 
-      <a href="index.html"> Create Complaint </a>
+padding:25px;
 
-      <a href="mycomplaints.html"> My Complaints </a>
+border-radius:20px;
 
-      <a href="#" onclick="showNotifications()"> 🔔 Notifications </a>
+box-shadow:0 0 20px rgba(0,0,0,.2);
 
-      <a href="#" onclick="logout()"> Logout </a>
-    </div>
+z-index:999;
 
-    <div class="main">
-      <div class="topbar">
-        <input class="search" id="search" placeholder="Search complaints" />
+}
 
-        <div>👤 Admin</div>
-      </div>
+#timelineModal{
+top:10%;
+left:35%;
+width:450px;
+}
 
-      <div class="stats">
-        <div class="card">
-          <h3>Total</h3>
+#notifyBox{
+right:20px;
+top:80px;
+width:320px;
+max-height:400px;
+overflow:auto;
+}
 
-          <div class="number" id="total">0</div>
-        </div>
+</style>
 
-        <div class="card">
-          <h3>Pending</h3>
+</head>
 
-          <div class="number" id="pending">0</div>
-        </div>
+<body>
 
-        <div class="card">
-          <h3>In Progress</h3>
+<div class="sidebar">
 
-          <div class="number" id="progress">0</div>
-        </div>
+<div class="logo">
 
-        <div class="card">
-          <h3>Resolved</h3>
+Complaint CMS
 
-          <div class="number" id="resolved">0</div>
-        </div>
-      </div>
+</div>
 
-      <div class="complaint-grid" id="complaints"></div>
-    </div>
+<a href="admin.html">
 
-    <div id="timelineModal">
-      <h2>Complaint Timeline</h2>
+Dashboard
 
-      <div id="timelineData"></div>
+</a>
 
-      <br />
+<a href="create.html">
 
-      <button class="timelineBtn" onclick="closeTimeline()">Close</button>
-    </div>
+Create Complaint
 
-    <div id="notifyBox">
-      <h2>Notifications</h2>
+</a>
 
-      <div id="notifyData"></div>
+<a href="mycomplaints.html">
 
-      <br />
+My Complaints
 
-      <button onclick="closeNotifications()">Close</button>
-    </div>
+</a>
 
-    <script>
-      function logout() {
-        localStorage.clear();
+<a href="#"
+onclick="showNotifications()">
 
-        window.location = "login.html";
-      }
+🔔 Notifications
 
-      async function sendResponse(id) {
-        const response = document.getElementById(`response${id}`).value;
+</a>
 
-        await fetch(
-          `http://localhost:8080/api/complaints/${id}/response?response=${response}`,
+<a href="#"
+onclick="logout()">
 
-          {
-            method: "PUT",
-          },
-        );
+Logout
 
-        loadComplaints();
-      }
+</a>
 
-      async function updateStatus(id, status) {
-        await fetch(
-          `http://localhost:8080/api/complaints/${id}?status=${status}`,
+</div>
 
-          {
-            method: "PUT",
-          },
-        );
+<div class="main">
 
-        loadComplaints();
-      }
+<div class="topbar">
 
-      async function showNotifications() {
-        const response = await fetch("http://localhost:8080/api/notifications");
+<input
+class="search"
+id="search"
+placeholder="Search complaints">
 
-        const data = await response.json();
+<div>
 
-        let output = "";
+👤 Admin
 
-        data.reverse().forEach((n) => {
-          output += `
+</div>
 
+</div>
+
+<div class="stats">
+
+<div class="card">
+<h3>Total</h3>
+<div class="number" id="total">0</div>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<div class="number" id="pending">0</div>
+</div>
+
+<div class="card">
+<h3>In Progress</h3>
+<div class="number" id="progress">0</div>
+</div>
+
+<div class="card">
+<h3>Resolved</h3>
+<div class="number" id="resolved">0</div>
+</div>
+
+</div>
+
+<div
+class="complaint-grid"
+id="complaints">
+
+</div>
+
+</div>
+
+<div id="timelineModal">
+
+<h2>
+Complaint Timeline
+</h2>
+
+<div id="timelineData"></div>
+
+<br>
+
+<button
+class="timelineBtn"
+onclick="closeTimeline()">
+
+Close
+
+</button>
+
+</div>
+
+<div id="notifyBox">
+
+<h2>
+Notifications
+</h2>
+
+<div id="notifyData"></div>
+
+<br>
+
+<button onclick=
+"closeNotifications()">
+
+Close
+
+</button>
+
+</div>
+
+<script>
+
+function logout(){
+
+localStorage.clear();
+
+window.location=
+"login.html";
+
+}
+
+async function sendResponse(id){
+
+const response=
+document.getElementById(
+`response${id}`
+).value;
+
+await fetch(
+`${window.location.origin}/api/complaints/${id}/response?response=${encodeURIComponent(response)}`,
+{
+method:"PUT"
+}
+);
+
+loadComplaints();
+
+}
+
+async function updateStatus(id,status){
+
+await fetch(
+`${window.location.origin}/api/complaints/${id}?status=${status}`,
+{
+method:"PUT"
+}
+);
+
+loadComplaints();
+
+}
+
+async function showNotifications(){
+
+const response=
+await fetch(
+`${window.location.origin}/api/notifications`
+);
+
+const data=
+await response.json();
+
+let output="";
+
+data.reverse().forEach((n)=>{
+
+output+=`
 <p>
-
 🔔 ${n.message}
-
 <br>
-
-<small>
-
-${n.time}
-
-</small>
-
+<small>${n.time}</small>
 </p>
-
 <hr>
-
 `;
-        });
 
-        notifyData.innerHTML = output;
+});
 
-        notifyBox.style.display = "block";
-      }
+notifyData.innerHTML=
+output;
 
-      function closeNotifications() {
-        notifyBox.style.display = "none";
-      }
+notifyBox.style.display=
+"block";
 
-      async function viewTimeline(id) {
-        const response = await fetch(
-          `http://localhost:8080/api/complaints/${id}/history`,
-        );
+}
 
-        const data = await response.json();
+function closeNotifications(){
 
-        let output = "";
+notifyBox.style.display=
+"none";
 
-        if (data.length === 0) {
-          output = "No history found";
-        }
+}
 
-        data.forEach((h) => {
-          output += `
+async function viewTimeline(id){
 
+const response=
+await fetch(
+`${window.location.origin}/api/complaints/${id}/history`
+);
+
+const data=
+await response.json();
+
+let output="";
+
+data.forEach((h)=>{
+
+output+=`
 <p>
-
-<b>
-
-${h.action}
-
-</b>
-
+<b>${h.action}</b>
 <br>
-
 ${h.time}
-
 </p>
-
 <hr>
-
 `;
-        });
 
-        timelineData.innerHTML = output;
+});
 
-        timelineModal.style.display = "block";
-      }
+timelineData.innerHTML=
+output;
 
-      function closeTimeline() {
-        timelineModal.style.display = "none";
-      }
+timelineModal.style.display=
+"block";
 
-      function downloadComplaintPDF(id) {
-        window.open(`http://localhost:8080/api/complaints/${id}/pdf`);
-      }
+}
 
-      async function loadComplaints() {
-        const response = await fetch("http://localhost:8080/api/complaints");
+function closeTimeline(){
 
-        const data = await response.json();
+timelineModal.style.display=
+"none";
 
-        total.innerText = data.length;
+}
 
-        pending.innerText = data.filter((c) => c.status === "Pending").length;
+function downloadComplaintPDF(id){
 
-        progress.innerText = data.filter(
-          (c) => c.status === "In Progress",
-        ).length;
+window.open(
+`${window.location.origin}/api/complaints/${id}/pdf`
+);
 
-        resolved.innerText = data.filter((c) => c.status === "Resolved").length;
+}
 
-        const search = document.getElementById("search").value.toLowerCase();
+async function loadComplaints(){
 
-        let output = "";
+const response=
+await fetch(
+`${window.location.origin}/api/complaints`
+);
 
-        data
-          .filter((c) =>
-            String(c.title || "")
-              .toLowerCase()
-              .includes(search),
-          )
-          .forEach((c) => {
-            let badge = "pending";
+const data=
+await response.json();
 
-            if (c.status === "Resolved") badge = "resolved";
+total.innerText=data.length;
 
-            if (c.status === "In Progress") badge = "progress";
+pending.innerText=
+data.filter(
+(c)=>c.status==="Pending"
+).length;
 
-            output += `
+progress.innerText=
+data.filter(
+(c)=>c.status==="In Progress"
+).length;
+
+resolved.innerText=
+data.filter(
+(c)=>c.status==="Resolved"
+).length;
+
+let output="";
+
+data.forEach((c)=>{
+
+let badge="pending";
+
+if(c.status==="Resolved")
+badge="resolved";
+
+if(c.status==="In Progress")
+badge="progress";
+
+output+=`
 
 <div class="complaint">
 
-<h2>
-
-${c.title}
-
-</h2>
+<h2>${c.title}</h2>
 
 <br>
 
-<span
-class=
+<span class=
 "badge ${badge}">
 
 ${c.status}
 
 </span>
 
-<p
-style=
+<p style=
 "margin-top:15px">
 
 ${c.description}
@@ -457,10 +533,11 @@ ${c.description}
 </p>
 
 ${
-  c.imageName
-    ? `<img src=
-"http://localhost:8080/uploads/${c.imageName}">`
-    : ""
+c.imageName
+?
+`<img src="${window.location.origin}/uploads/${c.imageName}">`
+:
+""
 }
 
 <p style="margin-top:15px">
@@ -534,14 +611,22 @@ Timeline
 </div>
 
 `;
-          });
 
-        complaints.innerHTML = output;
-      }
+});
 
-      search.addEventListener("input", loadComplaints);
+complaints.innerHTML=
+output;
 
-      loadComplaints();
-    </script>
-  </body>
+}
+
+search.addEventListener(
+"input",
+loadComplaints
+);
+
+loadComplaints();
+
+</script>
+
+</body>
 </html>

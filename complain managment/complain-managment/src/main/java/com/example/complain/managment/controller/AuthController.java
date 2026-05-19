@@ -7,7 +7,6 @@ import com.example.complain.managment.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-
 public class AuthController {
 
     private final UserRepository repo;
@@ -16,34 +15,26 @@ public class AuthController {
         this.repo = repo;
     }
 
-    // Register
-@PostMapping("/register")
-public User register(
-        @RequestBody User user){
+    @PostMapping("/register")
+    public User register(
+            @RequestBody User user){
 
-    if(
-    user.getEmail()
-    .equals(
-    "admin@gmail.com")){
+        // Replace with your real email
+        if(user.getEmail()
+                .equalsIgnoreCase(
+                "uninone24@gmail.com")){
 
-        user.setRole(
-        "ADMIN");
+            user.setRole("ADMIN");
+
+        }else{
+
+            user.setRole("USER");
+
+        }
+
+        return repo.save(user);
 
     }
-
-    else{
-
-        user.setRole(
-        "USER");
-
-    }
-
-    return repo.save(
-            user);
-
-}
-
-    // Login
 
     @PostMapping("/login")
     public User login(
@@ -55,8 +46,8 @@ public User register(
 
                 .filter(u ->
                         u.getPassword()
-                         .equals(
-                         user.getPassword()))
+                        .equals(
+                        user.getPassword()))
 
                 .orElse(null);
 
